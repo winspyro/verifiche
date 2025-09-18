@@ -128,6 +128,11 @@
     </div>
   </div>
 
+  <section class="card" id="indice">
+    <h3 class="section-title">Indice materie e unità</h3>
+    <div id="indiceContent" class="small muted">Caricamento indice…</div>
+  </section>
+
   <section class="card" id="parteA"></section>
   <section class="card" id="parteB"></section>
   <section class="card" id="parteC"></section>
@@ -475,6 +480,38 @@ function renderAll(){
 }
 
 renderAll();
+
+// ===== Indice da catalog.json (se presente) =====
+function renderIndexSection(cat){
+  const $idx = document.getElementById('indice');
+  const $cnt = document.getElementById('indiceContent');
+  try{
+    if(!cat || typeof cat !== 'object' || Object.keys(cat).length===0){ $idx.style.display='none'; return; }
+    const url = new URL(location.href);
+    const curS = url.searchParams.get('s');
+    const curU = url.searchParams.get('u');
+    const sections = Object.entries(cat).map(([key, sec])=>{
+      const title = (sec && sec.title) ? sec.title : key;
+      const units = Array.isArray(sec?.units) ? sec.units : [];
+      const pills = units.map(u=>{
+        const id = u.id || ''; const t = u.title || id;
+        const href = `?s=${encodeURIComponent(key)}&u=${encodeURIComponent(id)}`;
+        const active = (curS===key && curU===id);
+        return `<a href="${href}" class="btn ${active?'accent':'ghost'}" style="margin:4px 6px 0 0; display:inline-block">${t}</a>`;
+      }).join('');
+      return `<div style="margin-bottom:10px"><div class="section-title" style="font-size:16px;margin-bottom:6px">${title}</div><div>${pills || '<span class=\"muted small\">Nessuna unità</span>'}</div></div>`;
+    }).join('');
+    $cnt.innerHTML = sections;
+  }catch(e){ $idx.style.display='none'; }
+}
+
+function loadCatalogAndRenderIndex(){
+  fetch('catalog.json')
+    .then(r=>{ if(!r.ok) throw 0; return r.json(); })
+    .then(cat=> renderIndexSection(cat))
+    .catch(()=>{ const $idx = document.getElementById('indice'); if($idx) $idx.style.display='none'; });
+}
+loadCatalogAndRenderIndex();
 
 // =======================
 //  TIMER
