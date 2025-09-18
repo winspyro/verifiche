@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verifica Interattiva – Unità 0</title>
+  <style>
+    :root{
+      --bg:#0f172a;        /* slate-900 */
+      --card:#111827;      /* gray-900 */
+      --muted:#94a3b8;     /* slate-400 */
+      --text:#e5e7eb;      /* gray-200 */
+      --accent:#22c55e;    /* green-500 */
+      --accent-2:#38bdf8;  /* sky-400 */
+      --danger:#ef4444;    /* red-500 */
+      --warn:#f59e0b;      /* amber-500 */
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg, rgba(15,23,42,.95), rgba(15,23,42,.7));backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #1f2937}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    h1{font-size:28px;margin:0 0 6px}
+    .sub{color:var(--muted);font-size:14px}
+    .grid{display:grid;gap:16px}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:900px){.grid.cols-2{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #1f2937;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    label{font-weight:600;display:block;margin-bottom:6px}
+    input[type=text], input[type=number], select, textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid #374151;background:#0b1220;color:var(--text)}
+    textarea{min-height:110px;resize:vertical}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .btn{appearance:none;border:none;background:#1f2937;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}
+    .btn:hover{filter:brightness(1.15)}
+    .btn.accent{background:var(--accent);color:#052e16}
+    .btn.sky{background:var(--accent-2);color:#082f49}
+    .btn.ghost{background:transparent;border:1px solid #374151}
+    .btn.warn{background:var(--warn);color:#451a03}
+    .btn.danger{background:var(--danger);color:#450a0a}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#0b1220;border:1px solid #374151;border-radius:999px;padding:8px 12px;font-size:14px}
+    .timer{font-variant-numeric:tabular-nums;font-weight:900;font-size:22px}
+    .section-title{font-size:20px;margin:0 0 10px}
+    .q{margin:10px 0 12px}
+    .q h4{margin:0 0 8px;font-size:16px}
+    .choices{display:grid;gap:6px}
+    .choices label{font-weight:500}
+    .choices input{margin-right:6px}
+    .mathbar{display:flex;gap:8px;flex-wrap:wrap}
+    .mathbar .btn{padding:6px 10px;font-weight:800}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#172554;color:#93c5fd;font-size:12px;font-weight:700;border:1px solid #1e3a8a}
+    .score{font-size:18px;font-weight:800}
+    details > summary{cursor:pointer;user-select:none}
+    .rubric{border:1px dashed #334155;border-radius:12px;padding:10px;margin-top:8px}
+    .footer{color:#94a3b8;font-size:12px;margin-top:24px}
+    .ok{color:#22c55e}
+    .no{color:#ef4444}
+    .answer-key{background:#0b1220;border:1px solid #334155;border-radius:12px;padding:12px;margin-top:10px}
+    .hr{height:1px;background:#1f2937;margin:16px 0}
+    .small{font-size:12px}
+    .test-pass{color:#22c55e;font-weight:700}
+    .test-fail{color:#ef4444;font-weight:700}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap row" style="justify-content:space-between">
+    <div>
+      <h1>Verifica – Unità 0 • Strumenti matematici</h1>
+      <div class="sub">Frazioni • Percentuali • Arrotondamenti • Potenze di 10 • Equazioni • Proporzioni • Funzioni • Formule inverse • Pitagora • Seno/Coseno</div>
+    </div>
+    <div class="row">
+      <span class="pill"><span>Timer</span> <span class="timer" id="timer">40:00</span></span>
+      <button class="btn" id="start">Avvia</button>
+      <button class="btn ghost" id="pause">Pausa</button>
+      <button class="btn warn" id="reset">Reset</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+  <div class="grid cols-2">
+    <div class="card">
+      <label for="nome">Nome</label>
+      <input id="nome" class="meta" type="text" placeholder="Mario" />
+      <div style="height:8px"></div>
+      <label for="cognome">Cognome</label>
+      <input id="cognome" class="meta" type="text" placeholder="Rossi" />
+      <div style="height:8px"></div>
+      <label for="classe">Classe</label>
+      <input id="classe" class="meta" type="text" placeholder="1A ITIS" />
+      <div style="height:8px"></div>
+      <label for="unita">Unità</label>
+      <select id="unita">
+        <option value="0" selected>Unità 0 – Strumenti matematici</option>
+      </select>
+      <div class="hr"></div>
+      <div>
+        <div class="small muted">Barra simboli (clicca per inserire nel campo attivo)</div>
+        <div class="mathbar" id="mathbar">
+          <button class="btn" data-insert="^">^</button>
+          <button class="btn" data-insert="√( )" title="Radice (inserisce √( ) )">√( )</button>
+          <button class="btn" data-insert="×">×</button>
+          <button class="btn" data-insert="÷">÷</button>
+          <button class="btn" data-insert="π">π</button>
+          <button class="btn" data-insert="(">(</button>
+          <button class="btn" data-insert=")">)</button>
+          <button class="btn" data-insert="/">/</button>
+          <button class="btn" data-insert=",">,</button>
+        </div>
+        <div class="small muted" style="margin-top:6px">Suggerimento: puoi usare anche <b>sin(°)</b>, <b>cos(°)</b>, <b>tan(°)</b> negli esercizi numerici; ^ per potenze; √( ) per radici.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:flex-end">
+        <div>
+          <div class="section-title">Punteggio</div>
+          <div class="muted small">A: 6×1 pt • B: 6×2 pt • C: 4×3 pt → Totale /30</div>
+        </div>
+        <div class="score">Totale: <span id="totale">0</span> / 30</div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn accent" id="submit">Consegna / Correggi</button>
+        <button class="btn sky" id="mostraSoluzioni">Mostra soluzioni A e B</button>
+        <button class="btn ghost" id="salva">Salva su file</button>
+        <button class="btn ghost" id="carica">Carica da file</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="card" id="parteA"></section>
+  <section class="card" id="parteB"></section>
+  <section class="card" id="parteC"></section>
+
+  <section class="card">
+    <h3 class="section-title">Griglia di correzione – Parte C (4 problemi, 3 punti ciascuno)</h3>
+    <div class="muted small">Per ogni problema assegna fino a 3 punti: 1 pt procedura corretta · 1 pt calcoli e risultato · 1 pt chiarezza/uso unità. La somma si aggiorna automaticamente.</div>
+    <div id="rubricC" class="grid cols-2"></div>
+  </section>
+
+  <section class="card">
+    <details>
+      <summary><b>Guida docente / Studente</b> – criteri, risposte, come aggiungere altre unità</summary>
+      <div class="answer-key" id="answerKey"></div>
+      <div class="hr"></div>
+      <div class="small muted">
+        <b>Aggiungere altre unità</b>: duplica la struttura <code>banks</code> nello script e modifica domande/risposte. Puoi anche esportare/importare i dati con i pulsanti Salva/Carica. Tutto avviene al 100% in locale (nessun server richiesto).
+      </div>
+    </details>
+  </section>
+
+  <section class="card">
+    <details>
+      <summary><b>Diagnostica / Test automatici</b> – verifica rapida del questionario</summary>
+      <div id="testResults" class="small"></div>
+    </details>
+  </section>
+
+  <div class="footer">© 2025 – Verifica interattiva offline. Suggerimento: carica questo file su GitHub Pages o Google Drive per condividerlo facilmente. Non contiene librerie esterne.</div>
+</main>
+
+<script>
+// =======================
+//  BANCHE DOMANDE – Multi-Unità
+// =======================
+let currentUnitId = 'U0';
+
+let banks = {
+  U0: {
+    unitName: "Unità 0 – Strumenti matematici",
+    topics: "Frazioni • Percentuali • Arrotondamenti • Potenze di 10 • Equazioni • Proporzioni • Funzioni • Formule inverse • Pitagora • Seno/Coseno",
+    A: [
+      { q: "Quale frazione è equivalente a 3/4?", choices: ["6/8", "9/16", "12/20", "2/5"], correct: 0 },
+      { q: "Il 25% di 200 è:", choices: ["25", "40", "50", "75"], correct: 2 },
+      { q: "Arrotonda 3,456 al centesimo:", choices: ["3,45", "3,46", "3,44", "3,5"], correct: 1 },
+      { q: "5,2 × 10^3 è uguale a:", choices: ["5200", "0,0052", "52000", "0,00052"], correct: 0 },
+      { q: "Risolvi: 3x − 5 = 10", choices: ["x = 5", "x = 10/3", "x = −5", "x = 15"], correct: 0 },
+      { q: "Se 2 matite costano 1,20€, quanto costano 5 matite?", choices: ["2,00€", "2,50€", "3,00€", "3,60€"], correct: 2 }
+    ],
+    B: [
+      { prompt: "Semplifica la frazione 18/24 (in forma ridotta):", accept: ["3/4", 0.75] },
+      { prompt: "Calcola il 15% di 320:", accept: [48] },
+      { prompt: "Arrotonda 12,48 al decimo:", accept: [12.5, "12,5"] },
+      { prompt: "Scrivi 0,00036 in notazione scientifica (es: 3.6×10^-4):", accept: [3.6e-4, "3.6×10^-4", "3.6x10^-4", "3,6×10^-4", "3,6x10^-4"] },
+      { prompt: "Risolvi 4(x − 2) = 12. Trova x:", accept: [5] },
+      { prompt: "Triangolo rettangolo con cateti 6 cm e 8 cm. Trova l'ipotenusa (cm):", accept: [10] }
+    ],
+    C: [
+      { prompt: "(Percentuali & IVA) Una bici costa 180€. Sconto 15% e poi IVA 22% sul prezzo scontato. Calcola il prezzo finale.", hint: "Sconto: 180·0,85 = 153€. Poi IVA: 153·1,22 = 186,66€." },
+      { prompt: "(Potenze di 10 & misure) Converti 0,005 m in millimetri e scrivi la misura anche in notazione scientifica (in metri).", hint: "0,005 m = 5 mm; in m: 5×10^-3 m." },
+      { prompt: "(Funzioni) Considera y = 2x + 1. Calcola y per x = −1, 0, 3 e descrivi se la funzione è crescente o decrescente.", hint: "y(−1)=−1, y(0)=1, y(3)=7; è crescente (coefficiente angolare positivo)." },
+      { prompt: "(Trigonometria) Una scala appoggiata al muro raggiunge 3 m di altezza formando un angolo di 60° col suolo. Trova la lunghezza della scala e la distanza del piede dal muro.", hint: "L = 3/sin60° ≈ 3,464 m; distanza = L·cos60° ≈ 1,732 m." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U1: {
+    unitName: "Unità 1 – Frazioni e percentuali",
+    topics: "Frazioni equivalenti • Confronto frazioni • Percentuali su quantità • Riduzioni e aumenti percentuali",
+    A: [
+      { q: "0,75 in frazione ridotta è:", choices: ["3/4", "75/100", "7/10", "4/5"], correct: 0 },
+      { q: "Qual è maggiore?", choices: ["5/8", "3/5", "1/2", "4/7"], correct: 0 },
+      { q: "Il 12% di 250 è:", choices: ["25", "30", "28", "32"], correct: 1 },
+      { q: "Quale è equivalente a 7/9?", choices: ["21/27", "14/27", "28/45", "63/90"], correct: 0 },
+      { q: "Riduci 42/56:", choices: ["3/4", "6/7", "7/8", "2/3"], correct: 0 },
+      { q: "Trasforma 2 1/3 in frazione impropria:", choices: ["7/3", "5/3", "8/3", "6/3"], correct: 0 }
+    ],
+    B: [
+      { prompt: "Calcola 5/6 + 1/4 (in numero decimale):", accept: [1.0833333333] },
+      { prompt: "Trova 3/5 di 400:", accept: [240] },
+      { prompt: "Scrivi 0,48 in frazione ridotta:", accept: ["12/25", 0.48] },
+      { prompt: "Una ricetta usa 450 g di farina per 6 porzioni. Per 4 porzioni servono (g):", accept: [300] },
+      { prompt: "Aumenta 125€ dell'8%:", accept: [135] },
+      { prompt: "Applica uno sconto del 20% a 80€ e poi aumenta del 25% il risultato:", accept: [80] }
+    ],
+    C: [
+      { prompt: "(Prezzi) Uno zaino costa 60€. Sconto 10% e ulteriore sconto di 5€. Prezzo finale?", hint: "60·0,90 = 54; 54−5 = 49€." },
+      { prompt: "(Classe) In una classe di 30 studenti il 60% pratica sport. Quanti sono?", hint: "0,6·30 = 18." },
+      { prompt: "(Ricette) Sciroppo:acqua = 1:4. Per 2 L di bevanda, quanti mL di sciroppo servono?", hint: "Totale parti 5 ⇒ 2 L · 1/5 = 0,4 L = 400 mL." },
+      { prompt: "(IVA) Prezzo finale 73,20€ con IVA 22% inclusa. Trova il prezzo netto.", hint: "Netto = 73,20 / 1,22 = 60,00€." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U2: {
+    unitName: "Unità 2 – Equazioni di 1º grado e proporzioni",
+    topics: "Equazioni lineari • Proporzioni • Grandezze direttamente/inversamente proporzionali",
+    A: [
+      { q: "Risolvi 2x + 5 = 17:", choices: ["x = 5", "x = 6", "x = 12", "x = −6"], correct: 1 },
+      { q: "Risolvi 5(x−2) = 15:", choices: ["x = 5", "x = 3", "x = 6", "x = −3"], correct: 0 },
+      { q: "Quale è una proporzione vera?", choices: ["8:4 = 12:6", "3:2 = 6:5", "5:10 = 2:5", "7:3 = 21:8"], correct: 0 },
+      { q: "Se a/b = c/d allora:", choices: ["a+c = b+d", "ad = bc", "ab = cd", "a−b = c−d"], correct: 1 },
+      { q: "x/3 = 7/2 ⇒ x =", choices: ["21/2", "7/6", "14/3", "10/3"], correct: 0 },
+      { q: "Soluzione di 4x − x = 12:", choices: ["x = 3", "x = 4", "x = 12", "x = −4"], correct: 1 }
+    ],
+    B: [
+      { prompt: "Risolvi 3(x + 2) = 21. x =", accept: [5] },
+      { prompt: "x/5 = 12/15. x =", accept: [4] },
+      { prompt: "6 operai impiegano 10 giorni. In quanti giorni 8 operai? (stessa produttività)", accept: [7.5] },
+      { prompt: "Trova k affinché (2,5) appartenga a y = kx:", accept: [2.5] },
+      { prompt: "(x−1)/4 = (3x+5)/8. x =", accept: [-7] },
+      { prompt: "Se y = 0,6x, quanto vale y per x = 45?", accept: [27] }
+    ],
+    C: [
+      { prompt: "(Mappe) Scala 1:25 000. Distanza sulla mappa 12 cm. Distanza reale (km)?", hint: "12·25 000 cm = 300 000 cm = 3 km." },
+      { prompt: "(Moto) Percorsi 120 km in 1 h 30 min a velocità costante. Calcola la velocità media e il tempo per 200 km alla stessa velocità.", hint: "v = 120/1,5 = 80 km/h; t = 200/80 = 2,5 h." },
+      { prompt: "(Miscela) Per 5 kg di pittura servono 1,2 L di solvente. Per 8 kg quanti L?", hint: "8·1,2/5 = 1,92 L." },
+      { prompt: "(Piano tariffario) y = 5 + 0,12x (€), con x minuti. Spesa per 45 min? Scrivi anche la funzione.", hint: "y(x)=5+0,12x; y(45)=10,40€." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U3: {
+    unitName: "Unità 3 – Funzioni lineari e grafici",
+    topics: "y = mx + q • coefficiente angolare • intercetta • modelli lineari",
+    A: [
+      { q: "Per y=3x−2, y quando x=0 è:", choices: ["0", "−2", "3", "2"], correct: 1 },
+      { q: "La pendenza (m) di y=−2x+5 è:", choices: ["5", "−2", "2", "−5"], correct: 1 },
+      { q: "y=0,5x+1 è:", choices: ["crescente", "decrescente", "costante", "non lineare"], correct: 0 },
+      { q: "Quale punto sta su y=2x+1?", choices: ["(2,5)", "(1,4)", "(0,0)", "(−1,−3)"], correct: 0 },
+      { q: "L'intercetta di y=−x+4 è:", choices: ["−1", "4", "1", "−4"], correct: 1 },
+      { q: "Se y=mx+q passa per (0,−3), allora q=", choices: ["3", "−3", "0", "non determinabile"], correct: 1 }
+    ],
+    B: [
+      { prompt: "Trova l'equazione della retta per (0,2) e (4,6):", accept: ["y=x+2"] },
+      { prompt: "Per y=−3x+9, quando y=0 allora x =", accept: [3] },
+      { prompt: "Per y=2x+1, calcola y quando x=4:", accept: [9] },
+      { prompt: "Retta con m=2 passante per (2,1): (forma y=mx+q)", accept: ["y=2x-3"] },
+      { prompt: "Se y=kx passa per (5,−10), allora k =", accept: [-2] },
+      { prompt: "Valuta y=−0,5x+4 per x=−3:", accept: [5.5] }
+    ],
+    C: [
+      { prompt: "(Noleggio bici) Costo: 3€ fissi + 2€/h. Scrivi y(x) e calcola il costo per 5 h.", hint: "y(x)=3+2x; y(5)=13€." },
+      { prompt: "(Conversioni) Conversione °C→°F: y=1,8x+32. Calcola F per 20°C e poi trova °C per 77°F.", hint: "F=68; x=(77−32)/1,8=25°C." },
+      { prompt: "(Taxi) 4€ di chiamata + 1,2€/km. Costo per 12 km?", hint: "4+1,2·12=18,4€." },
+      { prompt: "(Acquisti) Penne a 1,5€ cad. Quante penne con 24€? Scrivi y=1,5x e trova x.", hint: "x=24/1,5=16." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U4: {
+    unitName: "Unità 4 – Teorema di Pitagora e triangoli rettangoli",
+    topics: "Ipotenusa e cateti • Diagonali • Distanze nel piano",
+    A: [
+      { q: "Nel triangolo rettangolo l'ipotenusa è:", choices: ["il lato opposto all'angolo retto", "il lato più corto", "un cateto qualsiasi", "sempre uguale ai cateti"], correct: 0 },
+      { q: "Quale terna è pitagorica?", choices: ["5,12,13", "6,9,12", "4,6,7", "8,10,13"], correct: 0 },
+      { q: "Se c=5 e b=? con a=13 ipotenusa, allora b=", choices: ["10", "12", "8", "9"], correct: 1 },
+      { q: "La diagonale di un quadrato di lato a:", choices: ["a√2", "a^2", "2a", "a/2"], correct: 0 },
+      { q: "Rettangolo 6×8: la diagonale misura:", choices: ["10", "12", "14", "√100"], correct: 0 },
+      { q: "Distanza tra (0,0) e (6,8):", choices: ["10", "7", "12", "8"], correct: 0 }
+    ],
+    B: [
+      { prompt: "Cateti 7 e 24. Ipotenusa =", accept: [25] },
+      { prompt: "Cateti 9 e 12. Perimetro del triangolo?", accept: [36] },
+      { prompt: "Quadrato con diagonale 10 cm. Lato (cm) ≈", accept: [7.0710678119, 7.07, "10/√2"] },
+      { prompt: "Triangolo con ipotenusa 10 e un cateto 6. Altro cateto =", accept: [8] },
+      { prompt: "Scala 5 m con piede a 3 m dal muro. Altezza raggiunta (m) =", accept: [4] },
+      { prompt: "Rettangolo 5×12. Diagonale =", accept: [13] }
+    ],
+    C: [
+      { prompt: "(TV 16:9) Diagonale 55\". Trova larghezza e altezza in cm (1\"=2,54 cm).", hint: "d=139,7 cm; w = d·16/√(16^2+9^2) ≈ 121,8; h ≈ 68,5." },
+      { prompt: "(Distanza) Un punto A è 60 m a est e 80 m a nord di O. Distanza AO?", hint: "√(60^2+80^2)=100 m." },
+      { prompt: "(Campo) Un campo rettangolare 30×40 m. Quanti metri misura la diagonale?", hint: "√(30^2+40^2)=50 m." },
+      { prompt: "(Scala antincendio) Altezza 4,5 m e distanza piede 2 m. Lunghezza minima della scala?", hint: "√(4,5^2+2^2) ≈ 4,924 m." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U5: {
+    unitName: "Unità 5 – Trigonometria di base (triangoli rettangoli)",
+    topics: "Seno • Coseno • Tangente • Angoli notevoli • Lati/angoli in triangoli rettangoli",
+    A: [
+      { q: "sin(30°) =", choices: ["1/2", "√3/2", "0", "1"], correct: 0 },
+      { q: "cos(60°) =", choices: ["1/2", "√3/2", "0", "1"], correct: 0 },
+      { q: "sin(90°) =", choices: ["0", "1", "√3/2", "1/2"], correct: 1 },
+      { q: "Relazione corretta:", choices: ["sin(90°−θ)=cosθ", "sin(θ)=cos(θ)", "tanθ = 1/sinθ", "cos^2 θ − sin^2 θ = 1"], correct: 0 },
+      { q: "In un triangolo rettangolo, cosθ =", choices: ["adiacente/ipotenusa", "opposto/ipotenusa", "opposto/adiacente", "ipotenusa/adiacente"], correct: 0 },
+      { q: "tan(45°) =", choices: ["0", "1", "√3", "1/√3"], correct: 1 }
+    ],
+    B: [
+      { prompt: "Triangolo rettangolo: ipotenusa 10, θ=30°. Lato opposto a θ =", accept: [5] },
+      { prompt: "Ipotenusa 10, θ=30°. Lato adiacente a θ ≈", accept: [8.6602540378, 8.66] },
+      { prompt: "Cateto adiacente 7, θ=60°. Ipotenusa ≈", accept: [14] },
+      { prompt: "Cateto opposto 4, θ=30°. Ipotenusa =", accept: [8] },
+      { prompt: "Cateto adiacente 5, θ=45°. Cateto opposto =", accept: [5] },
+      { prompt: "Ipotenusa 13 e cateto adiacente 5. Calcola θ in ° (≈)", accept: ["cos^-1(5/13)", 67.3801350519, 67.38] }
+    ],
+    C: [
+      { prompt: "(Rampa) Una rampa sale di 1 m con angolo 20°. Lunghezza della rampa?", hint: "L = h/sin20° ≈ 2,92 m." },
+      { prompt: "(Albero) Ombra 7,5 m; altezza del Sole 40°. Altezza dell'albero?", hint: "h = 7,5·tan40° ≈ 6,28 m." },
+      { prompt: "(Pendenza) Strada con pendenza 12% (tanθ≈0,12). Calcola θ in gradi.", hint: "θ ≈ arctan(0,12) ≈ 6,84°." },
+      { prompt: "(Scala) Scala lunga 4 m forma 75° col suolo. Altezza raggiunta e distanza dal muro.", hint: "h=4·sin75° ≈ 3,86 m; d=4·cos75° ≈ 1,04 m." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U6: {
+    unitName: "Unità 6 – Notazione scientifica e potenze di 10",
+    topics: "Ordini di grandezza • Prodotti con potenze di 10 • Prefissi SI",
+    A: [
+      { q: "0,00052 in notazione scientifica:", choices: ["5,2×10^-4", "5,2×10^-5", "52×10^-6", "0,52×10^-3"], correct: 0 },
+      { q: "7,1×10^3 è uguale a:", choices: ["710", "7100", "71 000", "0,0071"], correct: 1 },
+      { q: "Quale è maggiore?", choices: ["3×10^5", "2×10^6", "5×10^4", "8×10^3"], correct: 1 },
+      { q: "kilo (k) corrisponde a:", choices: ["10^2", "10^3", "10^4", "10^−3"], correct: 1 },
+      { q: "(2×10^3)·(3×10^4) =", choices: ["6×10^7", "5×10^7", "6×10^12", "6×10^1"], correct: 0 },
+      { q: "10^−3 equivale a:", choices: ["milli", "micro", "centi", "deci"], correct: 0 }
+    ],
+    B: [
+      { prompt: "Scrivi 4,5 milioni in notazione scientifica:", accept: ["4,5×10^6", "4.5×10^6"] },
+      { prompt: "(5×10^4):(2×10^2) =", accept: [250] },
+      { prompt: "Calcola (3×10^−3)·(4×10^2):", accept: [1.2] },
+      { prompt: "Converti 0,25 m in millimetri:", accept: [250] },
+      { prompt: "Ordine di grandezza di 72 000:", accept: [100000] },
+      { prompt: "Scrivi 0,000007 in notazione scientifica:", accept: ["7×10^-6", "7.0×10^-6"] }
+    ],
+    C: [
+      { prompt: "(Astronomia) Distanza Terra–Luna ≈ 3,84×10^5 km. In metri? (notazione scientifica)", hint: "3,84×10^8 m." },
+      { prompt: "(Microscopia) Un batterio è lungo 2,5×10^−6 m. Quanti micrometri (µm)?", hint: "2,5 µm." },
+      { prompt: "(Ordini) Confronta 6×10^7 e 8×10^6: di quanto è più grande il primo?", hint: "≈ 7,5 volte." },
+      { prompt: "(Energia) Una cella produce 1,5 V. Quante ne servono in serie per ≈ 10^2 V?", hint: "≈ 100/1,5 ≈ 67 celle." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  },
+
+  U7: {
+    unitName: "Unità 7 – Arrotondamenti, misure e incertezze",
+    topics: "Cifre significative • Arrotondamenti • Conversioni di unità • Errore relativo",
+    A: [
+      { q: "Arrotonda 3,456 al decimo:", choices: ["3,4", "3,5", "3,46", "3,45"], correct: 1 },
+      { q: "Numero con 3 cifre significative:", choices: ["0,00450", "4500", "45,00", "0,0450"], correct: 0 },
+      { q: "1 km =",
+        choices: ["100 m", "1000 m", "10 000 m", "100 000 m"], correct: 1 },
+      { q: "Errore relativo di 2±0,1 è:", choices: ["5%", "10%", "2%", "0,5%"], correct: 0 },
+      { q: "Arrotonda 9,995 alle centinaia:", choices: ["0", "10", "100", "9,9"], correct: 1 },
+      { q: "0,020 ha quante cifre significative?", choices: ["1", "2", "3", "4"], correct: 2 }
+    ],
+    B: [
+      { prompt: "Con 2 cifre significative, 0,004826 ≈", accept: [0.0048] },
+      { prompt: "Converti 2,3 h in secondi:", accept: [8280] },
+      { prompt: "Una misura è 12,4 ± 0,2 cm. Errore relativo (%) ≈",
+        accept: [1.6129, 1.61] },
+      { prompt: "Arrotonda 245,5 alle decine:", accept: [250] },
+      { prompt: "Converti 3,5 m in centimetri:", accept: [350] },
+      { prompt: "Una distanza 1,50 km a 2 cifre significative = (m)", accept: [1500] }
+    ],
+    C: [
+      { prompt: "(Laboratorio) Misuri una sbarra: 1,208 m con strumento ±0,002 m. Dai il risultato con cifre significative corrette.", hint: "1,208 m (±0,002 m) → 1,208 m; in alternativa 1,208±0,002 m." },
+      { prompt: "(Cronometro) Tempo di reazione 0,42 s ± 0,03 s. Errore relativo?", hint: "0,03/0,42 ≈ 7,14%." },
+      { prompt: "(Unità) Converti 65 km/h in m/s.", hint: "≈ 18,06 m/s (÷3,6)." },
+      { prompt: "(Rilevazioni) Tre misure: 10,2; 10,4; 10,3. Media e scarto massimo assoluto.", hint: "media 10,3; scarto max 0,1." }
+    ],
+    weights: { A: 1, B: 2, C: 3 }
+  }
+};
+
+function getBank(){ return banks[currentUnitId]; }
+
+// =======================
+//  RENDER UI
+// =======================
+const $A = document.getElementById('parteA');
+const $B = document.getElementById('parteB');
+const $C = document.getElementById('parteC');
+const $rubricC = document.getElementById('rubricC');
+const $totale = document.getElementById('totale');
+const $answerKey = document.getElementById('answerKey');
+
+function renderA(){
+  const bank = getBank();
+  const items = bank.A.map((item, idx)=>{
+    const id = `A${idx}`;
+    const options = item.choices.map((c,i)=> `<label><input type="radio" name="${id}" value="${i}"> ${c}</label>`).join('');
+    return `<div class=\"q\"><h4><span class=\"badge\">A${idx+1}</span> ${item.q}</h4><div class=\"choices\">${options}</div></div>`
+  }).join('');
+  $A.innerHTML = `<h3 class=\"section-title\">Parte A – Conoscenze di base (6 × 1 pt)</h3>${items}`;
+}
+
+function renderB(){
+  const bank = getBank();
+  const items = bank.B.map((item, idx)=>{
+    const id = `B${idx}`;
+    return `<div class=\"q\"><h4><span class=\"badge\">B${idx+1}</span> ${item.prompt}</h4><input class=\"math-input\" type=\"text\" id=\"${id}\" placeholder=\"Risposta\"/></div>`
+  }).join('');
+  $B.innerHTML = `<h3 class=\"section-title\">Parte B – Esercizi guidati (6 × 2 pt)</h3>${items}`;
+}
+
+function renderC(){
+  const bank = getBank();
+  const items = bank.C.map((item, idx)=>{
+    const id = `C${idx}`;
+    return `<div class=\"q\"><h4><span class=\"badge\">C${idx+1}</span> ${item.prompt}</h4><textarea class=\"math-input\" id=\"${id}\" placeholder=\"Scrivi qui i passaggi e il risultato...\"></textarea>
+    <details class=\"small muted\"><summary>Suggerimento</summary>${item.hint}</details></div>`
+  }).join('');
+  $C.innerHTML = `<h3 class=\"section-title\">Parte C – Problemi di ragionamento (4 × 3 pt)</h3>${items}`;
+}
+
+function renderRubric(){
+  const bank = getBank();
+  const items = bank.C.map((_, idx)=>{
+    return `<div class=\"rubric\">\n      <div><b>Valutazione C${idx+1}</b> – max 3 pt</div>\n      <label><input type=\"checkbox\" class=\"rubcheck\" data-p=\"1\" data-c=\"${idx}\"> Procedura corretta (1)</label>\n      <label><input type=\"checkbox\" class=\"rubcheck\" data-p=\"1\" data-c=\"${idx}\"> Calcoli & risultato (1)</label>\n      <label><input type=\"checkbox\" class=\"rubcheck\" data-p=\"1\" data-c=\"${idx}\"> Chiarezza & unità (1)</label>\n      <div class=\"small muted\">Punti assegnati: <span id=\"rubC${idx}\">0</span> / 3</div>\n    </div>`
+  }).join('');
+  $rubricC.innerHTML = items;
+}
+
+function renderAnswerKey(){
+  const bank = getBank();
+  let html = '<b>Soluzioni Parte A</b><ol>';
+  bank.A.forEach((a)=>{ html += `<li>${a.q} <span class=\"ok\">→ ${a.choices[a.correct]}</span></li>`; });
+  html += '</ol><div class=\"hr\"></div>';
+  html += '<b>Soluzioni Parte B</b><ol>';
+  bank.B.forEach((b)=>{ const show = Array.isArray(b.accept)? b.accept[0] : b.accept; html += `<li>${b.prompt} <span class=\"ok\">→ ${fmtAnswer(show)}</span></li>`; });
+  html += '</ol><div class=\"hr\"></div>';
+  html += '<b>Criteri Parte C</b><div class=\"small\">Per ogni problema: 1 pt procedura, 1 pt calcoli/risultato, 1 pt chiarezza & unità. Esempi di esito completo sono mostrati nei suggerimenti di ogni domanda.</div>'
+  $answerKey.innerHTML = html;
+}
+
+function fmtAnswer(a){
+  if(typeof a === 'number') return (''+a).replace('.',',');
+  return a;
+}
+
+function updateHeader(){
+  const b = getBank();
+  document.querySelector('header h1').textContent = `Verifica – ${b.unitName}`;
+  document.querySelector('header .sub').textContent = b.topics || '';
+}
+
+function renderAll(){
+  renderA();
+  renderB();
+  renderC();
+  renderRubric();
+  renderAnswerKey();
+  updateHeader();
+}
+
+renderAll();
+
+// =======================
+//  TIMER
+// =======================
+let duration = 40*60; // seconds
+let remaining = duration;
+let intv = null;
+const $timer = document.getElementById('timer');
+function drawTimer(){
+  const m = String(Math.floor(remaining/60)).padStart(2,'0');
+  const s = String(remaining%60).padStart(2,'0');
+  $timer.textContent = `${m}:${s}`;
+}
+function tick(){
+  if(remaining>0){ remaining--; drawTimer(); }
+  if(remaining===0){ stop(); alert('Tempo scaduto! Puoi comunque consegnare e vedere il punteggio.'); }
+}
+function start(){ if(intv) return; intv = setInterval(tick,1000); }
+function stop(){ clearInterval(intv); intv = null; }
+function reset(){ stop(); remaining = duration; drawTimer(); }
+
+document.getElementById('start').onclick = start;
+document.getElementById('pause').onclick = stop;
+document.getElementById('reset').onclick = ()=>{ if(confirm('Reset timer a 40:00?')) reset(); };
+
+drawTimer();
+
+// Populate unit selector
+const unitSelect = document.getElementById('unita');
+function populateUnits(){
+  unitSelect.innerHTML = Object.entries(banks).map(([id,b])=>`<option value="${id}" ${id===currentUnitId?'selected':''}>${b.unitName}</option>`).join('');
+}
+populateUnits();
+
+unitSelect.addEventListener('change', ()=>{
+  currentUnitId = unitSelect.value;
+  renderAll();
+  loadDraft();
+});
+
+// =======================
+//  INPUT HELPERS (math bar)
+// =======================
+let lastFocused = null;
+document.addEventListener('focusin',(e)=>{
+  if(e.target && (e.target.matches('input[type=text]')||e.target.matches('textarea'))){ lastFocused = e.target; }
+});
+
+document.getElementById('mathbar').addEventListener('click',(e)=>{
+  const btn = e.target.closest('button[data-insert]');
+  if(!btn || !lastFocused) return;
+  const ins = btn.dataset.insert;
+  const el = lastFocused;
+  const start = el.selectionStart ?? el.value.length;
+  const end = el.selectionEnd ?? el.value.length;
+  const before = el.value.slice(0,start);
+  const after = el.value.slice(end);
+  el.value = before + ins + after;
+  let cursor = before.length + ins.length;
+  if(ins.includes('( )')){
+    // Metti il cursore tra le parentesi
+    const idx = ins.indexOf(')');
+    if(idx>0) cursor = before.length + idx;
+  }
+  el.focus();
+  try{ el.setSelectionRange(cursor,cursor);}catch{}
+});
+
+// =======================
+//  EVAL & CORREZIONE
+// =======================
+function normalize(str){
+  return (str||'').trim();
+}
+
+function parseUserNumber(raw){
+  if(typeof raw !== 'string') return NaN;
+  let s = raw.trim();
+  if(!s) return NaN;
+  // unify decimal comma
+  s = s.replace(/,/g,'.');
+  // handle × and ÷
+  s = s.replace(/×/g,'*').replace(/÷/g,'/');
+  // handle power ^ to **
+  s = s.replace(/\^/g,'**');
+  // handle sqrt √( ) or √number
+  s = s.replace(/√\s*\(([^)]+)\)/g,'Math.sqrt($1)');
+  s = s.replace(/√\s*([0-9.]+)/g,'Math.sqrt($1)');
+  // handle pi
+  s = s.replace(/π/g,'Math.PI');
+  // handle scientific notation like 3.6x10^-4
+  s = s.replace(/\s*[x×]\s*10\s*\^\s*([+\-]?[0-9]+)/i,(m,exp)=>`*10**${exp}`);
+  s = s.replace(/\s*e\s*([+\-]?[0-9]+)/i,'*10**$1');
+  // trig in degrees: sin(30°)
+  s = s.replace(/sin\(\s*([0-9.]+)\s*°\s*\)/gi,(m,deg)=>`Math.sin((${deg})*Math.PI/180)`);
+  s = s.replace(/cos\(\s*([0-9.]+)\s*°\s*\)/gi,(m,deg)=>`Math.cos((${deg})*Math.PI/180)`);
+  s = s.replace(/tan\(\s*([0-9.]+)\s*°\s*\)/gi,(m,deg)=>`Math.tan((${deg})*Math.PI/180)`);
+  try{
+    // evaluate safely in Function scope
+    // eslint-disable-next-line no-new-func
+    const val = Function(`"use strict"; return (${s});`)();
+    const num = Number(val);
+    return Number.isFinite(num) ? num : NaN;
+  }catch{
+    return NaN;
+  }
+}
+
+function isCorrectB(userInput, accept){
+  const variants = Array.isArray(accept)? accept : [accept];
+  const ustr = (''+userInput).trim();
+  for(const v of variants){
+    if(typeof v === 'string' && normalize(ustr).replace(/\s+/g,'') === normalize(v).replace(/\s+/g,'')) return true;
+  }
+  const unum = parseUserNumber(ustr);
+  if(!Number.isFinite(unum)) return false;
+  for(const v of variants){
+    if(typeof v === 'number'){
+      const tol = Math.max(1e-6, Math.abs(v)*1e-3); // 0.1% or 1e-6
+      if(Math.abs(unum - v) <= tol) return true;
+    } else if(typeof v === 'string'){
+      const vn = parseUserNumber(v);
+      if(Number.isFinite(vn)){
+        const tol = Math.max(1e-6, Math.abs(vn)*1e-3);
+        if(Math.abs(unum - vn) <= tol) return true;
+      }
+    }
+  }
+  return false;
+}
+
+function correctAll(){
+  const bank = getBank();
+  // Parte A
+  let scoreA = 0;
+  bank.A.forEach((item, idx)=>{
+    const name = `A${idx}`;
+    const choice = document.querySelector(`input[name=${name}]:checked`);
+    if(choice && Number(choice.value) === item.correct){ scoreA += (bank.weights?.A ?? 1); }
+  });
+  // Parte B
+  let scoreB = 0;
+  bank.B.forEach((item, idx)=>{
+    const id = `B${idx}`;
+    const val = document.getElementById(id).value;
+    if(isCorrectB(val, item.accept)) scoreB += (bank.weights?.B ?? 2);
+  });
+  // Parte C via rubric
+  let scoreC = 0;
+  for(let i=0;i<bank.C.length;i++){
+    const checks = Array.from(document.querySelectorAll(`.rubcheck[data-c='${i}']`));
+    const pts = checks.reduce((s,ch)=> s + (ch.checked? Number(ch.dataset.p):0), 0);
+    const el = document.getElementById(`rubC${i}`);
+    if(el) el.textContent = pts;
+    scoreC += Math.min(3, pts);
+  }
+  const total = scoreA + scoreB + scoreC;
+  $totale.textContent = total;
+  return {scoreA, scoreB, scoreC, total};
+}
+
+// =======================
+//  BUTTONS
+// =======================
+
+document.getElementById('submit').addEventListener('click', ()=>{
+  const res = correctAll();
+  alert(`Punteggio aggiornato!\nParte A: ${res.scoreA}/6  |  Parte B: ${res.scoreB}/12  |  Parte C: ${res.scoreC}/12  \nTotale: ${res.total}/30`);
+  saveDraft();
+});
+
+// Show solutions A & B highlight
+const $show = document.getElementById('mostraSoluzioni');
+$show.addEventListener('click', ()=>{
+  const bank = getBank();
+  // Mark correct in A
+  bank.A.forEach((item, idx)=>{
+    const radios = document.querySelectorAll(`input[name=A${idx}]`);
+    radios.forEach((r,i)=>{
+      const lab = r.closest('label');
+      lab.style.borderRadius = '10px';
+      lab.style.padding = '4px 6px';
+      if(i === item.correct){ lab.style.outline = '2px solid var(--accent)'; }
+      else lab.style.opacity = .75;
+    });
+  });
+  // Fill B with a correct example if empty
+  bank.B.forEach((item, idx)=>{
+    const id = `B${idx}`; const el = document.getElementById(id);
+    if(!normalize(el.value)){
+      const ex = Array.isArray(item.accept)? item.accept[0] : item.accept;
+      el.value = typeof ex === 'number'? (''+ex).replace('.',',') : ex;
+    }
+  });
+  correctAll();
+});
+
+// =======================
+//  SAVE / LOAD (local & file)
+// =======================
+function saveDraft(){
+  const bank = getBank();
+  const data = {
+    meta: {
+      nome: document.getElementById('nome').value,
+      cognome: document.getElementById('cognome').value,
+      classe: document.getElementById('classe').value,
+      unitaId: currentUnitId,
+      unitaName: bank.unitName
+    },
+    A: bank.A.map((_,i)=>{
+      const ch = document.querySelector(`input[name=A${i}]:checked`);
+      return ch? Number(ch.value) : null;
+    }),
+    B: bank.B.map((_,i)=> document.getElementById(`B${i}`).value),
+    C: bank.C.map((_,i)=> document.getElementById(`C${i}`).value),
+    rubric: bank.C.map((_,i)=> Array.from(document.querySelectorAll(`.rubcheck[data-c='${i}']`)).map(x=>x.checked)),
+    score: correctAll()
+  };
+  localStorage.setItem('verifica_'+currentUnitId, JSON.stringify(data));
+  return data;
+}
+
+function loadDraft(){
+  const raw = localStorage.getItem('verifica_'+currentUnitId);
+  if(!raw) { correctAll(); return; }
+  try{
+    const d = JSON.parse(raw);
+    document.getElementById('nome').value = d.meta?.nome||'';
+    document.getElementById('cognome').value = d.meta?.cognome||'';
+    document.getElementById('classe').value = d.meta?.classe||'';
+    d.A?.forEach((v,i)=>{ if(v!=null){ const r = document.querySelector(`input[name=A${i}][value='${v}']`); if(r) r.checked = true; }});
+    d.B?.forEach((v,i)=>{ const el = document.getElementById(`B${i}`); if(el) el.value = v; });
+    d.C?.forEach((v,i)=>{ const el = document.getElementById(`C${i}`); if(el) el.value = v; });
+    d.rubric?.forEach((arr,i)=>{ const checks = Array.from(document.querySelectorAll(`.rubcheck[data-c='${i}']`)); checks.forEach((ch,idx)=> ch.checked = !!arr[idx]); });
+    correctAll();
+  }catch{ correctAll(); }
+}
+
+// auto-save on changes
+addEventListener('change', (e)=>{
+  if(e.target && (e.target.matches('input, textarea, select'))) saveDraft();
+});
+
+// export file
+function download(filename, text){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], {type:'application/json'}));
+  a.download = filename; a.click(); URL.revokeObjectURL(a.href);
+}
+
+document.getElementById('salva').addEventListener('click', ()=>{
+  const data = saveDraft();
+  const name = (data.meta?.cognome||'') + '_' + (data.meta?.nome||'');
+  const base = (data.meta?.unitaId||'U').toUpperCase();
+  download(`verifica_${base}_${name||'anonimo'}.json`, JSON.stringify(data,null,2));
+});
+
+// import file
+function upload(cb){
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'application/json';
+  inp.onchange = ()=>{
+    const f = inp.files[0]; if(!f) return;
+    const r = new FileReader(); r.onload = ()=> cb(r.result); r.readAsText(f);
+  };
+  inp.click();
+}
+
+document.getElementById('carica').addEventListener('click', ()=>{
+  upload((txt)=>{
+    try{ localStorage.setItem('verifica_'+currentUnitId, txt); loadDraft(); alert('Dati caricati!'); }catch{ alert('File non valido.'); }
+  });
+});
+
+// Init load
+loadDraft();
+
+// =======================
+//  TEST AUTOMATICI (diagnostica)
+// =======================
+function runDiagnostics(){
+  const out = [];
+  function t(name, cond){ out.push(`<div>${cond?'<span class=\"test-pass\">OK</span>':'<span class=\"test-fail\">FAIL</span>'} – ${name}</div>`); }
+
+  // Struttura banche
+  const unitIds = Object.keys(banks);
+  t('Esistono unità', unitIds.length>=1);
+  unitIds.forEach(id=>{
+    const b = banks[id];
+    t(`${id}: 6 domande Parte A`, Array.isArray(b.A) && b.A.length===6);
+    t(`${id}: 6 esercizi Parte B`, Array.isArray(b.B) && b.B.length===6);
+    t(`${id}: 4 problemi Parte C`, Array.isArray(b.C) && b.C.length===4);
+    t(`${id}: opzioni A a 4 scelte`, b.A.every(q=>Array.isArray(q.choices) && q.choices.length===4));
+    t(`${id}: indici correct validi`, b.A.every(q=> Number.isInteger(q.correct) && q.correct>=0 && q.correct<q.choices.length));
+  });
+
+  // Parser numerico
+  t('parseUserNumber 3^2 = 9', parseUserNumber('3^2')===9);
+  t('parseUserNumber √(16) = 4', parseUserNumber('√(16)')===4);
+  t('parseUserNumber 3.6×10^-4', Math.abs(parseUserNumber('3.6×10^-4')-3.6e-4)<1e-12);
+  t('parseUserNumber sin(30°)=0.5', Math.abs(parseUserNumber('sin(30°)')-0.5)<1e-12);
+
+  // isCorrectB tolleranza
+  t('isCorrectB match numero ~0.1%', isCorrectB('1.2001', 1.2));
+  t('isCorrectB match stringa simbolica', isCorrectB('10/√2', ['10/√2', 7.071]));
+
+  // Test extra
+  t('parseUserNumber 1e-3 = 0.001', Math.abs(parseUserNumber('1e-3')-0.001) < 1e-12);
+  t('parseUserNumber 0,5 = 0.5', Math.abs(parseUserNumber('0,5')-0.5) < 1e-12);
+  t('parseUserNumber unario -2^3 = -8', parseUserNumber('-2^3') === -8);
+  t('parseUserNumber right-assoc 2^3^2 = 512', parseUserNumber('2^3^2') === 512);
+  t('parseUserNumber precedenze 2+3*4 = 14', parseUserNumber('2+3*4') === 14);
+
+  document.getElementById('testResults').innerHTML = out.join('');
+}
+
+runDiagnostics();
+
+// ===== Validatore banks.json & Loader esterno (Metodo B) =====
+function validateBanks(obj){
+  if(!obj || typeof obj !== 'object') return false;
+  const ids = Object.keys(obj);
+  if(ids.length === 0) return false;
+  for(const id of ids){
+    const b = obj[id];
+    if(!b) return false;
+    if(!Array.isArray(b.A) || b.A.length!==6) return false;
+    if(!Array.isArray(b.B) || b.B.length!==6) return false;
+    if(!Array.isArray(b.C) || b.C.length!==4) return false;
+    if(!b.A.every(q=> q && Array.isArray(q.choices) && q.choices.length===4 && Number.isInteger(q.correct) && q.correct>=0 && q.correct<q.choices.length)) return false;
+  }
+  return true;
+}
+
+// === Loader avanzato: prima da catalogo (?s=...&u=...), poi fallback banks.json ===
+function getQueryParams(){
+  const u = new URL(location.href);
+  return { s: u.searchParams.get('s'), u: u.searchParams.get('u') };
+}
+
+async function loadFromCatalog(){
+  const { s, u } = getQueryParams();
+  if(!s || !u) return false;
+  try{
+    const cat = await fetch('catalog.json').then(r=>{ if(!r.ok) throw new Error('catalog.json assente'); return r.json(); });
+    if(!cat[s] || !Array.isArray(cat[s].units)) return false;
+    const rec = cat[s].units.find(x=> x.id===u);
+    if(!rec || !rec.path) return false;
+
+    const data = await fetch(rec.path).then(r=>{ if(!r.ok) throw new Error('Unit path non raggiungibile'); return r.json(); });
+    const candidate = data.banks || data;
+    if(!validateBanks(candidate)) throw new Error('Formato unità non valido');
+    banks = candidate; // override
+    currentUnitId = Object.keys(banks)[0] || currentUnitId;
+    populateUnits();
+    renderAll();
+    loadDraft();
+    console.log(`Caricato da catalogo: ${s}/${u} → ${rec.path}`);
+    return true;
+  }catch(e){
+    console.warn('Catalog load error:', e);
+    return false;
+  }
+}
+
+function loadBanksJsonFallback(){
+  fetch('banks.json')
+    .then(r=>{ if(!r.ok) throw new Error('banks.json assente'); return r.json(); })
+    .then(data=>{
+      const candidate = data.banks || data;
+      if(validateBanks(candidate)){
+        banks = candidate; // override fallback
+        currentUnitId = Object.keys(banks)[0] || currentUnitId;
+        populateUnits();
+        renderAll();
+        loadDraft();
+        console.log('banks.json caricato');
+      } else {
+        console.warn('banks.json non valido. Uso le domande di fallback incorporate.');
+      }
+    })
+    .catch(()=>{ /* Nessun banks.json: resta il fallback interno */ });
+}
+
+// Avvio: prova il catalogo; se non presente, carica banks.json; altrimenti resta il fallback interno
+loadFromCatalog().then(ok=>{ if(!ok) loadBanksJsonFallback(); });
+</script>
+</body>
+</html>
