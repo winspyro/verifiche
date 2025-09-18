@@ -3,14 +3,9 @@
     "title": "Fisica – 1ª",
     "units": [
       {"id":"U0","title":"Test Unità 0 – Strumenti matematici","path":"data/fisica/U0.json"},
-     # {"id":"U1","title":"1 – Le frazioni","path":"data/fisica/U1.json"}
-    ]
-  },
-  #"matematica": {
-    "title": "Matematica – 1ª",
-    "units": [
-      {"id":"F1","title":"1 – Grandezze, unità e misure","path":"data/matematica/F1_misure.json"}
+    
     ]
   }
-}
+
+
 
