@@ -1,0 +1,299 @@
+{
+"U0": {
+"unitName": "Test Unità 0 – Strumenti matematici",
+"topics": "Frazioni • Percentuali • Arrotondamenti • Potenze di 10 • Equazioni lineari • Proporzioni • Funzioni base • Formule inverse",
+"A": [
+{ "q": "Quale frazione è equivalente a 3/4?", "choices": ["6/8","9/16","4/3","8/6"], "correct": 0 },
+{ "q": "Il 25% di 80 è:", "choices": ["20","25","15","18"], "correct": 0 },
+{ "q": "Arrotonda 3,457 al decimo.", "choices": ["3,5","3,4","3,46","3,45"], "correct": 0 },
+{ "q": "Tra questi, quale è in notazione scientifica corretta?", "choices": ["4,2×10^3","42×10^0,3","0,42×10^5","42×10^−3"], "correct": 0 },
+{ "q": "Risolvi: 3x − 5 = 16.", "choices": ["7","−7","3,67","21"], "correct": 0 },
+{ "q": "Se a:b = 2:5 e b = 20, allora a =", "choices": ["8","10","5","12"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Semplifica 18/24.", "accept": ["3/4",0.75,"0,75"] },
+{ "prompt": "Calcola il 12% di 250.", "accept": [30,"30,0","30.0"] },
+{ "prompt": "Arrotonda 7,846 alle centinaia (unità di 100).", "accept": [0,"0,0","0.0"] },
+{ "prompt": "Scrivi 0,00036 in notazione scientifica.", "accept": ["3,6×10^-4","3.6×10^-4","3,6e-4","3.6e-4"] },
+{ "prompt": "Risolvi x/5 = 3,4.", "accept": [17,"17,0","17.0"] },
+{ "prompt": "In y = 2x + 1, calcola y per x = −3.", "accept": [-5,"-5,0","-5.0"] }
+],
+"C": [
+{ "prompt": "Uno sconto del 15% su una felpa da 48 €: quanto paghi?", "hint": "Prezzo scontato = 48×(1−0,15)=40,8 €." },
+{ "prompt": "Una ricetta richiede 3/5 di litro di latte per 4 persone. Quanti litri per 10 persone?", "hint": "Proporzione diretta: (3/5)×(10/4)=1,5 L." },
+{ "prompt": "Un telefono costa 299 €. IVA al 22% inclusa. Qual è il prezzo senza IVA?", "hint": "Prezzo base = 299/1,22 ≈ 245,9 €." },
+{ "prompt": "Punto A(2,1). Con la funzione y=−x+4, qual è y di A e la distanza di A dall’origine?", "hint": "y=2; distanza=√(2^2+1^2)=√5 ≈ 2,236." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U1": {
+"unitName": "1 – Le frazioni",
+"topics": "Parte di un intero • Frazioni equivalenti • Semplificazione • Operazioni con frazioni • Confronto e ordinamento • Frazioni e numeri decimali",
+"A": [
+{ "q": "Quale frazione è equivalente a 5/6?", "choices": ["10/12","15/40","25/24","6/5"], "correct": 0 },
+{ "q": "Riduci ai minimi termini 14/21.", "choices": ["2/3","4/7","14/21","3/2"], "correct": 0 },
+{ "q": "Tra 3/5 e 5/8, quale è maggiore?", "choices": ["5/8","3/5","Sono uguali","Non si può dire"], "correct": 0 },
+{ "q": "Somma: 2/3 + 1/6 =", "choices": ["5/6","1/2","7/6","3/6"], "correct": 0 },
+{ "q": "Prodotto: 3/4 × 8/9 =", "choices": ["2/3","3/2","1/2","8/13"], "correct": 0 },
+{ "q": "Trasforma 0,375 in frazione ridotta.", "choices": ["3/8","5/8","3/4","1/4"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Semplifica 42/56.", "accept": ["3/4",0.75,"0,75"] },
+{ "prompt": "Calcola 7/12 + 5/12.", "accept": ["1",1,"1,0","1.0"] },
+{ "prompt": "Calcola 5/6 − 1/8.", "accept": ["17/24",0.7083333,"0,7083333"] },
+{ "prompt": "Calcola (3/5)×(10/3).", "accept": ["2",2,"2,0","2.0"] },
+{ "prompt": "Dividi 9/10 ÷ 3/5.", "accept": ["3/2",1.5,"1,5"] },
+{ "prompt": "Ordina in crescente: 2/3, 3/5, 5/8 (rispondi con numeratore/denominatore separati da virgole).", "accept": ["3/5,5/8,2/3"] }
+],
+"C": [
+{ "prompt": "In una classe 12 studenti su 30 hanno la bici. Che frazione rappresentano? Semplifica.", "hint": "12/30=2/5=0,4." },
+{ "prompt": "Una torta è divisa in 8 fette. Ne mangi 3 e poi metà della rimanenza. Che frazione della torta resta?", "hint": "Resta 5/8; dopo metà rimanente: 5/16 mangiata; rimane 1−(3/8+5/16)=1−(6/16+5/16)=5/16." },
+{ "prompt": "Una pista è lunga 1,2 km. Corri 3/5 della pista. Quanti metri?", "hint": "1,2 km=1200 m; 3/5×1200=720 m." },
+{ "prompt": "Versi 3/4 L d’acqua in una bottiglia da 1,5 L già piena a 2/5. Quanti litri totali?", "hint": "2/5×1,5=0,6 L; +0,75 L=1,35 L." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U2": {
+"unitName": "2 – Le percentuali",
+"topics": "Percentuale • Aumento e sconto • Tasso percentuale • Percentuale su percentuale • Percentuale e frazioni • Problemi di spesa",
+"A": [
+{ "q": "Il 30% di 200 è:", "choices": ["60","30","70","90"], "correct": 0 },
+{ "q": "Uno sconto del 20% su 50 € toglie:", "choices": ["10 €","20 €","5 €","15 €"], "correct": 0 },
+{ "q": "Un prezzo passa da 80 a 100 €. L’aumento percentuale è:", "choices": ["25%","20%","15%","22%"], "correct": 0 },
+{ "q": "Il 12,5% corrisponde a quale frazione semplice?", "choices": ["1/8","1/6","1/4","1/10"], "correct": 0 },
+{ "q": "Applichi +10% e poi −10% sullo stesso prezzo. L’effetto totale è:", "choices": ["Leggero calo","Nessuna variazione","Leggero aumento","Dipende dal prezzo"], "correct": 0 },
+{ "q": "Il 3‰ (per mille) di 2000 è:", "choices": ["6","0,6","60","0,06"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Calcola il 18% di 320.", "accept": [57.6,"57,6"] },
+{ "prompt": "Prezzo 240 € con IVA 22% inclusa. Prezzo senza IVA?", "accept": [196.7213114754,"196,72","196.72"] },
+{ "prompt": "Una quantità aumenta del 15% da 400. Valore finale.", "accept": [460,"460,0","460.0"] },
+{ "prompt": "Uno sconto del 35% su 86 €.", "accept": [55.9,"55,9","55.90","55,90"] },
+{ "prompt": "Porta 0,045 in percentuale.", "accept": [4.5,"4,5","4.5%","4,5%"] },
+{ "prompt": "Il 8% di x è 24. Trova x.", "accept": [300,"300,0","300.0"] }
+],
+"C": [
+{ "prompt": "Una bici costa 360 €. Sconto 25% e poi ulteriore 10% sul prezzo scontato. Prezzo finale?", "hint": "360×0,75=270; 270×0,9=243 €." },
+{ "prompt": "In un test hai 42 risposte giuste su 50. Percentuale di successo?", "hint": "42/50=0,84→84%." },
+{ "prompt": "Una popolazione cresce del 2% annuo da 12 000 abitanti. Stima dopo 1 anno.", "hint": "12 000×1,02=12 240." },
+{ "prompt": "Maglietta 24 € + IVA 22% + ecotassa fissa 0,50 €. Totale?", "hint": "24×1,22=29,28; +0,50=29,78 €." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U3": {
+"unitName": "3 – L’arrotondamento di un numero decimale",
+"topics": "Cifre significative base • Arrotondamento a unità/decimi/cent/esimi • Regola 5 • Errori di arrotondamento • Stima",
+"A": [
+{ "q": "Arrotonda 12,46 alle unità.", "choices": ["12","12","13","11"], "correct": 0 },
+{ "q": "Arrotonda 9,85 al decimo.", "choices": ["9,9","9,8","10,0","9,0"], "correct": 0 },
+{ "q": "Qual è l’errore assoluto tra 7,3 e 7,28?", "choices": ["0,02","0,2","0,05","0,01"], "correct": 0 },
+{ "q": "Arrotonda 0,00496 a tre cifre significative.", "choices": ["0,00496≈0,00496","0,00496≈0,00496","0,00496≈0,00496","0,00496≈0,00496"], "correct": 0 },
+{ "q": "Arrotonda 5,50 alle unità.", "choices": ["6","5","5,5","4"], "correct": 0 },
+{ "q": "Quale stima è corretta per 49,6÷9,8?", "choices": ["≈5","≈4","≈6","≈10"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Arrotonda 3,14159 al centesimo.", "accept": [3.14,"3,14"] },
+{ "prompt": "Arrotonda 27,45 alle unità.", "accept": [27,"27,0","27.0"] },
+{ "prompt": "Errore assoluto tra 100 e 97,6.", "accept": [2.4,"2,4"] },
+{ "prompt": "Arrotonda 0,09996 a due cifre significative.", "accept": [0.10,"0,10","0.1","0,1"] },
+{ "prompt": "Stima 201×4,9 (risultato approssimato).", "accept": [985,"985,0","≈985"] },
+{ "prompt": "Arrotonda 6,499 al decimo.", "accept": [6.5,"6,5"] }
+],
+"C": [
+{ "prompt": "Misuri una tavola lunga 1,964 m con metro al cm. Indica la misura arrotondata e l’errore massimo.", "hint": "1,964 m ≈ 1,96 m; errore max ±0,005 m." },
+{ "prompt": "Stima il tempo per 245 km a 95 km/h.", "hint": "t≈245/95≈2,58 h ≈ 2 h 35 min." },
+{ "prompt": "Arrotonda 8,235 € al centesimo e calcola differenza da 8,24 €.", "hint": "8,235→8,24 € (regola del 5); differenza 0,00 €." },
+{ "prompt": "Sommi 12,4 m e 3,06 m con precisioni diverse. Dai il risultato coerente.", "hint": "12,4 + 3,06 = 15,46 → 15,5 m (limita al decimo)." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U4": {
+"unitName": "4 – Le potenze di 10",
+"topics": "Notazione scientifica • Ordini di grandezza • Moltiplicazioni e divisioni con 10^k • Spostamento virgola • Prefissi (milli, kilo, mega)",
+"A": [
+{ "q": "0,00072 in notazione scientifica è:", "choices": ["7,2×10^-4","72×10^-6","0,72×10^-3","7,2×10^-5"], "correct": 0 },
+{ "q": "Quale è più grande?", "choices": ["3×10^4","2×10^5","5×10^3","9×10^2"], "correct": 0 },
+{ "q": "Moltiplica: (2×10^3)×(3×10^2).", "choices": ["6×10^5","5×10^6","6×10^6","5×10^5"], "correct": 0 },
+{ "q": "Dividi: (8×10^−3)÷(4×10^−1).", "choices": ["2×10^-2","2×10^-4","32×10^-2","0,2×10^-1"], "correct": 0 },
+{ "q": "1 millimetro in metri è:", "choices": ["1×10^-3 m","1×10^3 m","1×10^-6 m","1×10^-2 m"], "correct": 0 },
+{ "q": "Numero di cifre significative in 5,00×10^2.", "choices": ["3","2","1","4"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Scrivi 4 500 000 in notazione scientifica.", "accept": ["4,5×10^6","4.5×10^6","4,5e6","4.5e6"] },
+{ "prompt": "Scrivi 0,0054 in notazione scientifica.", "accept": ["5,4×10^-3","5.4×10^-3","5,4e-3","5.4e-3"] },
+{ "prompt": "Calcola (6×10^4)×(2×10^-2).", "accept": ["1,2×10^3","1.2×10^3","1200","1,2e3","1.2e3"] },
+{ "prompt": "Calcola (9×10^-5)÷(3×10^-2).", "accept": ["3×10^-3","3,0×10^-3","0,003","3e-3"] },
+{ "prompt": "Ordine di grandezza di 7,8×10^5.", "accept": ["10^6","1e6"] },
+{ "prompt": "Converti 2,5 km in metri.", "accept": [2500,"2,5×10^3","2.5×10^3","2,5e3","2.5e3"] }
+],
+"C": [
+{ "prompt": "La massa della Terra è circa 5,97×10^24 kg. A parole, quant’è circa?", "hint": "≈ 6×10^24 kg (sei con 24 zeri)." },
+{ "prompt": "Una cellula è lunga 2×10^-5 m. Quante in 1 cm disposte in fila?", "hint": "1 cm=1×10^-2 m; numero≈(1×10^-2)/(2×10^-5)=500." },
+{ "prompt": "La velocità della luce 3,0×10^8 m/s. In 5×10^-6 s quanti metri percorre?", "hint": "s=v·t=3×10^8×5×10^-6=1,5×10^3 m." },
+{ "prompt": "Un file è 4,7 GB. Quanti MB (1 GB≈10^3 MB)?", "hint": "≈ 4,7×10^3 MB = 4700 MB." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U5": {
+"unitName": "5 – Le equazioni",
+"topics": "Equazioni di 1° grado • Trasporto termini • Equazioni con frazioni • Verifica soluzione • Problemi lineari",
+"A": [
+{ "q": "Risolvi: x + 7 = 12.", "choices": ["5","−5","19","12"], "correct": 0 },
+{ "q": "Risolvi: 3x − 2 = 10.", "choices": ["4","2","-4","6"], "correct": 0 },
+{ "q": "Risolvi: 2(x − 3) = 10.", "choices": ["8","4","2","-2"], "correct": 0 },
+{ "q": "Risolvi: (x/4) + 2 = 5.", "choices": ["12","3","20","-12"], "correct": 0 },
+{ "q": "Quale è soluzione di 5x = 3x + 14?", "choices": ["7","−7","14","5"], "correct": 0 },
+{ "q": "Se 4x − 1 = 3 − 2x allora x =", "choices": ["2/3","-2/3","1/3","-1/3"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Risolvi: x − 5 = −12.", "accept": [-7,"-7,0","-7.0"] },
+{ "prompt": "Risolvi: 7x + 3 = 31.", "accept": [4,"4,0","4.0"] },
+{ "prompt": "Risolvi: 2x − 5 = x + 8.", "accept": [13,"13,0","13.0"] },
+{ "prompt": "Risolvi: (x−3)/5 = 2.", "accept": [13,"13,0","13.0"] },
+{ "prompt": "Risolvi: 3(x+2) = 2(x+5).", "accept": [4,"4,0","4.0"] },
+{ "prompt": "Risolvi: (x/2) + (x/3) = 10.", "accept": [12,"12,0","12.0"] }
+],
+"C": [
+{ "prompt": "Acquisti 3 quaderni e una penna da 2 €. Spendi 11 €. Prezzo di un quaderno?", "hint": "3q+2=11 ⇒ q=3 €." },
+{ "prompt": "Un abbonamento costa 25 € al mese + 10 € iniziali. Paghi 85 €. Per quanti mesi?", "hint": "25m+10=85 ⇒ m=3." },
+{ "prompt": "Un numero aumentato di 7 è uguale al doppio del numero diminuito di 5. Trovalo.", "hint": "x+7=2(x−5) ⇒ x=17." },
+{ "prompt": "Dividi 90 in due parti: la maggiore è 12 più del doppio della minore.", "hint": "Sia m minore, M=2m+12, m+M=90 ⇒ m=26, M=64." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U6": {
+"unitName": "6 – Le proporzioni",
+"topics": "Proporzione a:b=c:d • Prodotto dei medi ed estremi • Grandezze direttamente e inversamente proporzionali • Scala di riduzione • Tabelle di proporzionalità",
+"A": [
+{ "q": "In a:b=c:d è vero che:", "choices": ["a·d = b·c","a·b = c·d","a+d = b+c","a:b = b:a"], "correct": 0 },
+{ "q": "Se 3 quaderni costano 6 €, 5 quaderni costano:", "choices": ["10 €","8 €","12 €","9 €"], "correct": 0 },
+{ "q": "Inversamente proporzionale significa che se x raddoppia, y:", "choices": ["Dimezza","Raddoppia","Resta uguale","Triplica"], "correct": 0 },
+{ "q": "Scala 1:2000. 3 cm sulla mappa sono:", "choices": ["60 m","6 m","600 m","30 m"], "correct": 0 },
+{ "q": "Completa la proporzione: 8:4 = x:2.", "choices": ["x=4","x=8","x=2","x=1"], "correct": 0 },
+{ "q": "Se a:b=2:5 e b=20, a vale:", "choices": ["8","10","5","2"], "correct": 0 }
+],
+"B": [
+{ "prompt": "A:b=7:3 e b=12. Trova A.", "accept": [28,"28,0","28.0"] },
+{ "prompt": "Direttamente proporzionale: y=5x. Per x=3, y=?", "accept": [15,"15,0","15.0"] },
+{ "prompt": "Inversamente proporzionale: x·y=48. Per x=6, y=?", "accept": [8,"8,0","8.0"] },
+{ "prompt": "Scala 1:2500. 12 cm sulla mappa in metri reali.", "accept": [300,"300,0","300.0"] },
+{ "prompt": "In una ricetta 4 uova per 6 persone. Quante per 9 persone? (rispondi numero)", "accept": [6,"6,0","6.0"] },
+{ "prompt": "Se a:b=c:d con a=9,b=12,c=6, trova d.", "accept": [8,"8,0","8.0"] }
+],
+"C": [
+{ "prompt": "Una bici percorre 15 km in 40 min a velocità costante. In 1 h quanti km?", "hint": "Diretta: 15/40= x/60 ⇒ x=22,5 km." },
+{ "prompt": "Un disegno in scala 1:50 ha lato 6 cm. Lato reale?", "hint": "6×50=300 cm=3 m." },
+{ "prompt": "Per 5 persone servono 750 g di pasta. Quanta per 8?", "hint": "750/5=150 g per persona; ×8=1200 g." },
+{ "prompt": "Pompa: tempo e portata inversamente proporzionali. Con portata doppia, il tempo per 600 L da 30 min diventa?", "hint": "Tempo dimezza: 15 min." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U7": {
+"unitName": "7 – Le funzioni",
+"topics": "Relazione x→y • Tabella e grafico • Funzione lineare y=mx+q • Pendenza • Intercette",
+"A": [
+{ "q": "In y=2x+3, 2 è:", "choices": ["coefficiente angolare","intercetta","variabile","costante additiva"], "correct": 0 },
+{ "q": "Il grafico di y=−x passa per:", "choices": ["(1,−1)","(1,1)","(−1,1)","(0,1)"], "correct": 0 },
+{ "q": "Qual è l’intercetta y di y=4x−5?", "choices": ["−5","4","5","0"], "correct": 0 },
+{ "q": "La pendenza maggiore è:", "choices": ["m=3","m=1","m=0","m=−2"], "correct": 0 },
+{ "q": "Se y=mx+q passa per (0,2), allora q=", "choices": ["2","m","0","−2"], "correct": 0 },
+{ "q": "Punto su y=2x+1:", "choices": ["(2,5)","(1,4)","(0,0)","(−1,−1)"], "correct": 0 }
+],
+"B": [
+{ "prompt": "In y=3x−2, calcola y per x=5.", "accept": [13,"13,0","13.0"] },
+{ "prompt": "Trova m sapendo che y=mx passa per (4,10).", "accept": [2.5,"2,5"] },
+{ "prompt": "In y=−2x+6, per y=0 trova x.", "accept": [3,"3,0","3.0"] },
+{ "prompt": "Due punti A(0,1) e B(2,5). Trova m della retta AB.", "accept": [2,"2,0","2.0"] },
+{ "prompt": "Intersezione tra y=2x+1 e l’asse y (x=?).", "accept": [0,"0,0","0.0"] },
+{ "prompt": "In y=mx+q passa per (1,4) e (3,8). Trova m.", "accept": [2,"2,0","2.0"] }
+],
+"C": [
+{ "prompt": "Una corsa taxi: 3 € di partenza + 0,9 €/km. Scrivi y(x) e calcola costo per 12 km.", "hint": "y=0,9x+3; per 12 km: 13,8 €." },
+{ "prompt": "Temperatura scende linearmente da 20°C a 8°C in 6 h. Modello y=mx+q con x ore, y°C (x=0→20).", "hint": "m=(8−20)/6=−2 °C/h; y=−2x+20." },
+{ "prompt": "Una promozione: prezzo y in funzione dei pezzi x: y=5x+4. Quanto paghi per 7 pezzi?", "hint": "y=5·7+4=39 €." },
+{ "prompt": "Una cisterna si riempie di 120 L ogni 10 min. Funzione volume in L dopo x min e volume in 1 h.", "hint": "m=12 L/min; V=12x; in 60 min: 720 L." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U8": {
+"unitName": "8 – Le formule inverse",
+"topics": "Isolare l’incognita • Simmetria delle formule • Cambio soggetto • Esempi fisici (v=s/t, d=m/V) • Algebra letterale",
+"A": [
+{ "q": "Da v = s/t, per trovare s si fa:", "choices": ["s = v·t","s = v/t","s = t/v","s = v−t"], "correct": 0 },
+{ "q": "Da I = V/R, per R:", "choices": ["R = V/I","R = I/V","R = V·I","R = I·V"], "correct": 0 },
+{ "q": "Da A = b·h, per h:", "choices": ["h = A/b","h = b/A","h = A·b","h = A−b"], "correct": 0 },
+{ "q": "Da P = m·g, per m:", "choices": ["m = P/g","m = g/P","m = P·g","m = P−g"], "correct": 0 },
+{ "q": "Da y = mx + q, per x:", "choices": ["x = (y−q)/m","x = y/m − q","x = m/(y−q)","x = q−y·m"], "correct": 0 },
+{ "q": "Da ρ = m/V, per V:", "choices": ["V = m/ρ","V = ρ/m","V = m·ρ","V = ρ−m"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Isola t da v=s/t.", "accept": ["t=s/v","t = s/v"] },
+{ "prompt": "Isola b da A=b·h.", "accept": ["b=A/h","b = A/h"] },
+{ "prompt": "Isola V da I=V/R.", "accept": ["V=I·R","V = I·R","V=IR"] },
+{ "prompt": "Isola m da ρ=m/V.", "accept": ["m=ρ·V","m = ρ·V"] },
+{ "prompt": "Isola x da y=2x−5.", "accept": ["x=(y+5)/2","x = (y+5)/2"] },
+{ "prompt": "Isola r da C=2πr.", "accept": ["r=C/(2π)","r = C/(2π)"] }
+],
+"C": [
+{ "prompt": "Un’auto percorre s=180 km in t ore a v costante. Ricava t e calcola per v=90 km/h.", "hint": "t=s/v; t=180/90=2 h." },
+{ "prompt": "Per un filo: ρ=8,9 g/cm^3, m=44,5 g. Trova V.", "hint": "V=m/ρ=44,5/8,9=5 cm^3." },
+{ "prompt": "Retta y=3x−2. Ricava x in funzione di y e calcola x per y=10.", "hint": "x=(y+2)/3; x=4." },
+{ "prompt": "Area A di un rettangolo è 96 cm^2, base b=12 cm. Trova altezza.", "hint": "h=A/b=96/12=8 cm." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U9": {
+"unitName": "9 – Il teorema di Pitagora",
+"topics": "Triangolo rettangolo • Cateti e ipotenusa • Diagonali di rettangoli • Distanze nel piano • Applicazioni pratiche",
+"A": [
+{ "q": "In un triangolo rettangolo con cateti 3 e 4, l’ipotenusa è:", "choices": ["5","6","7","√7"], "correct": 0 },
+{ "q": "Se l’ipotenusa è 13 e un cateto 5, l’altro cateto è:", "choices": ["12","8","10","√144"], "correct": 0 },
+{ "q": "La diagonale di un quadrato di lato 6 è:", "choices": ["6√2","12","3√2","6"], "correct": 0 },
+{ "q": "La distanza tra A(1,2) e B(5,5) è:", "choices": ["5","√(25)","3","4"], "correct": 0 },
+{ "q": "Rettangolo 9×12: diagonale?", "choices": ["15","21","√(81+144)","12"], "correct": 0 },
+{ "q": "Se c^2=a^2+b^2, allora a^2 =", "choices": ["c^2−b^2","c^2+b^2","c−b","ab"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Cateti 5 e 12. Ipotenusa.", "accept": [13,"13,0","13.0"] },
+{ "prompt": "Ipotenusa 10, cateto 6. Altro cateto.", "accept": [8,"8,0","8.0"] },
+{ "prompt": "Quadrato lato 7: diagonale.", "accept": ["7√2",9.8994949,"7*√(2)","71.4142","9,899"] },
+{ "prompt": "Rettangolo 8×15: diagonale.", "accept": [17,"17,0","17.0"] },
+{ "prompt": "Distanza tra (−2,1) e (4,4).", "accept": [6.7082039,"6,708","√45","3√5"] },
+{ "prompt": "Triangolo rettangolo con ipotenusa 26 e cateto 24. Altro cateto.", "accept": [10,"10,0","10.0"] }
+],
+"C": [
+{ "prompt": "Scala appoggiata: piede a 1,2 m dal muro, appoggio a 2,6 m di altezza. Lunghezza scala?", "hint": "c=√(1,2^2+2,6^2)=√(1,44+6,76)=√8,2≈2,86 m." },
+{ "prompt": "Campo 30×40 m. Quanti metri la diagonale per tirare un cavo?", "hint": "√(30^2+40^2)=50 m." },
+{ "prompt": "Distanza tra due case alle coordinate A(3,−1), B(−2,4).", "hint": "d=√[(−5)^2+(5)^2]=√50≈7,07." },
+{ "prompt": "TV 55'' in 16:9. Altezza se la diagonale è 55''? (1''≈2,54 cm, opzionale dare in pollici)", "hint": "Per 16:9, h=9k, w=16k, diag=√(337)k ⇒ k=55/√337≈3,0 ⇒ h≈27''≈68,6 cm." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+},
+"U10": {
+"unitName": "10 – Seno e coseno",
+"topics": "Triangoli rettangoli • Definizioni sin e cos (gradi) • Rapporti fondamentali • Angoli notevoli 30° 45° 60° • Problemi di altezza e distanza",
+"A": [
+{ "q": "In un triangolo rettangolo, sin(θ) è:", "choices": ["cateto opposto/ipotenusa","cateto adiacente/ipotenusa","ipotenusa/cateto opposto","adiacente/opposto"], "correct": 0 },
+{ "q": "cos(θ) è:", "choices": ["cateto adiacente/ipotenusa","cateto opposto/ipotenusa","ipotenusa/cateto adiacente","opposto/adiacente"], "correct": 0 },
+{ "q": "sin(30°) vale:", "choices": ["1/2","√2/2","√3/2","√3/3"], "correct": 0 },
+{ "q": "cos(60°) vale:", "choices": ["1/2","√3/2","√2/2","0"], "correct": 0 },
+{ "q": "In un triangolo rettangolo con ipotenusa 10 e angolo acuto 30°, il cateto opposto vale:", "choices": ["5","5√3","10","√3"], "correct": 0 },
+{ "q": "sin^2(θ)+cos^2(θ) =", "choices": ["1","0","2","sin(2θ)"], "correct": 0 }
+],
+"B": [
+{ "prompt": "Calcola sin(45°).", "accept": ["√2/2",0.70710678,"0,7071"] },
+{ "prompt": "Calcola cos(45°).", "accept": ["√2/2",0.70710678,"0,7071"] },
+{ "prompt": "Ipotenusa 20, angolo 60°. Cateto adiacente.", "accept": [10,"10,0","10.0","20·cos(60°)"] },
+{ "prompt": "Ipotenusa 13, angolo 30°. Cateto opposto.", "accept": [6.5,"6,5","13·sin(30°)"] },
+{ "prompt": "Cateto adiacente 8, ipotenusa 10. Calcola cos(θ).", "accept": [0.8,"0,8","4/5"] },
+{ "prompt": "Cateto opposto 6, ipotenusa 10. Calcola sin(θ).", "accept": [0.6,"0,6","3/5"] }
+],
+"C": [
+{ "prompt": "Da un punto a terra vedi la cima di una torre con angolo di elevazione 30°. Distanza orizzontale 40 m. Altezza?", "hint": "h=40·tan(30°)=40·(√3/3)≈23,1 m." },
+{ "prompt": "Un pendio forma 12° con l’orizzontale. Salita di 500 m lungo il pendio: dislivello verticale?", "hint": "Δh=500·sin(12°)≈104 m." },
+{ "prompt": "Un albero getta ombra lunga 8 m con angolo solare 40°. Altezza albero?", "hint": "tan(40°)=h/8 ⇒ h=8·tan(40°)≈6,7 m." },
+{ "prompt": "Triangolo rettangolo: cateto adiacente 9, angolo acuto 30°. Ipotenusa e cateto opposto.", "hint": "cos30°=9/c ⇒ c=9/ (√3/2)=6√3≈10,39; opposto = c·sin30°≈5,2." }
+],
+"weights": { "A": 1, "B": 2, "C": 3 }
+}
+}
