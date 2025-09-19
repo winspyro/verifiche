@@ -1,0 +1,85 @@
+{
+  "U1": {
+    "unitName": "Unità 1 – La misura delle grandezze fisiche",
+    "topics": "Metodo sperimentale • Grandezze fisiche • Operazioni tra grandezze • SI: grandezze fondamentali/derivate • Multipli/sottomultipli e prefissi • Conversioni (lunghezze, aree, volumi, masse, tempi) • Massa vs peso • Densità • Notazione scientifica e ordine di grandezza • Errori (assoluto, relativo, %) • Cifre significative • Propagazione degli errori (somma/prodotto)",
+    "A": [
+      { "q": "Quale fase NON fa parte del metodo sperimentale?", "choices": ["Osservazione", "Ipotesi", "Verifica sperimentale", "Accettare l’autorità dei testi antichi"], "correct": 3 },
+      { "q": "Quale delle seguenti NON è una grandezza fisica?", "choices": ["Massa", "Simpatia", "Temperatura", "Velocità"], "correct": 1 },
+      { "q": "Quante sono le grandezze fondamentali del SI?", "choices": ["5", "6", "7", "8"], "correct": 2 },
+      { "q": "L’unità di misura del tempo nel SI è:", "choices": ["h (ora)", "s (secondo)", "min (minuto)", "ms (millisecondo)"], "correct": 1 },
+      { "q": "Quale operazione NON ha senso?", "choices": ["5 m + 3 m", "7 s − 2 s", "12 m / 3 s", "4 kg + 2 m"], "correct": 3 },
+      { "q": "1 micrometro (µm) in metri corrisponde a:", "choices": ["10⁻³ m", "10⁻⁶ m", "10⁻⁹ m", "10⁻¹² m"], "correct": 1 },
+      { "q": "Quanti cm² ci sono in 1 m²?", "choices": ["100", "1000", "10 000", "1 000 000"], "correct": 2 },
+      { "q": "Quanti litri (L) ci sono in 1 m³?", "choices": ["10", "100", "1000", "10 000"], "correct": 2 },
+      { "q": "L’anno‑luce è:", "choices": ["Unità di tempo", "Unità di massa", "Unità di lunghezza (non SI)", "Un’unità SI di lunghezza"], "correct": 2 },
+      { "q": "Quale affermazione è corretta su massa e peso?", "choices": ["Sono la stessa cosa", "La massa dipende dal luogo", "Il peso è una forza e dipende dal luogo", "Il peso è costante ovunque"], "correct": 2 },
+      { "q": "L’unità SI della densità è:", "choices": ["g/cm³", "kg/m³", "N", "kg"], "correct": 1 },
+      { "q": "Trasforma 2,7 g/cm³ in kg/m³:", "choices": ["27", "270", "2700", "27 000"], "correct": 2 },
+      { "q": "Qual è la notazione scientifica corretta di 0,000 073?", "choices": ["7,3 × 10⁻⁵", "0,73 × 10⁻⁴", "73 × 10⁻⁶", "7,3 × 10⁵"], "correct": 0 },
+      { "q": "L’ordine di grandezza di 3,2 × 10⁷ è:", "choices": ["10⁵", "10⁶", "10⁷", "10⁸"], "correct": 2 },
+      { "q": "Quale esempio descrive un errore sistematico?", "choices": ["Leggero colpo di vento durante la misura", "Cronometrista che parte in ritardo una volta", "Righello dilatato dal calore", "Piccole vibrazioni casuali"], "correct": 2 },
+      { "q": "Un righello con tacche da 1 mm: incertezza tipica sulla lettura è:", "choices": ["±1 mm", "±0,5 mm", "±0,1 mm", "±2 mm"], "correct": 1 },
+      { "q": "Quante cifre significative ha 0,003040?", "choices": ["3", "4", "5", "6"], "correct": 1 },
+      { "q": "In una SOMMA le incertezze assolute:", "choices": ["Si sottraggono", "Si sommano", "Si moltiplicano", "Si ignorano"], "correct": 1 },
+      { "q": "In un PRODOTTO/QUOZIENTE le incertezze da propagare sono:", "choices": ["Assolute", "Relative", "In metri", "In secondi"], "correct": 1 },
+      { "q": "Il prefisso nano‑ (n) corrisponde a:", "choices": ["10⁻³", "10⁻⁶", "10⁻⁹", "10⁻¹²"], "correct": 2 }
+    ],
+    "B": [
+      { "prompt": "Converti 1,2 km in metri:", "accept": [1200, "1200"] },
+      { "prompt": "Converti 0,0042 m in millimetri:", "accept": [4.2, "4,2"] },
+      { "prompt": "Quanti m² sono 250 cm²? (scrivi in m²)", "accept": [0.025, "0,025"] },
+      { "prompt": "Quanti m³ sono 3,5 L?", "accept": [0.0035, "0,0035"] },
+      { "prompt": "Scrivi in notazione scientifica: 149 000 000 000 m", "accept": ["1.49×10^11", "1,49×10^11"] },
+      { "prompt": "Arrotonda 0,003456 a 2 cifre significative:", "accept": [0.0035, "0,0035"] },
+      { "prompt": "Errore relativo in % di 2,00 kg ± 0,02 kg (solo numero):", "accept": [1, "1.0", "1,0"] },
+      { "prompt": "Densità: 18,0 g divisi per 2,00 cm³ = ? (g/cm³)", "accept": [9, "9.0", "9,0"] },
+      { "prompt": "Trasforma 1,20 g/cm³ in kg/m³:", "accept": [1200, "1200"] },
+      { "prompt": "Converti 90 km/h in m/s:", "accept": [25, "25"] },
+      { "prompt": "Media di 10,1 s; 10,2 s; 10,0 s (in s):", "accept": [10.1, "10,1"] },
+      { "prompt": "Quante cifre significative ha 20,080? (solo numero)", "accept": [5, "5"] }
+    ],
+    "C": [
+      {
+        "prompt": "(Lez.1 – Metodo) Elenca in ordine le 4 fasi del metodo sperimentale e proponi un esempio di ipotesi verificabile su un moto di caduta.",
+        "hint": "1) Osservazione 2) Ipotesi 3) Esperimento 4) Conclusioni. Esempio: l’altezza influisce linearmente sul tempo di caduta (a parità di condizioni)."
+      },
+      {
+        "prompt": "(Lez.2 – SI & operazioni) Quali di queste operazioni sono ammissibili? a) 7 m + 35 cm b) 12 s − 5 m c) 3,0 m / 1,5 s d) 2 kg × 3 m. Per le ammissibili, calcola il risultato in unità SI coerenti.",
+        "hint": "a) Ammissibile: 7,35 m. b) No. c) Ammissibile: 2,0 m/s. d) Ammissibile: 6 kg·m (grandezza derivata)."
+      },
+      {
+        "prompt": "(Lez.3 – Aree/volumi) Un foglio A4 misura 210 mm × 297 mm. a) Area in cm² e m². b) Quanti fogli servono per coprire 1 m²?",
+        "hint": "a) 21,0×29,7 cm → 623,7 cm² → 0,06237 m². b) 1 / 0,06237 ≈ 16."
+      },
+      {
+        "prompt": "(Lez.4 – Massa/tempo) Un atleta corre 400 m in 68 s. a) Velocità media. b) Converti 3 h 25 min 03 s in secondi.",
+        "hint": "a) v ≈ 5,88 m/s. b) 3×3600 + 25×60 + 3 = 12 303 s."
+      },
+      {
+        "prompt": "(Lez.5 – Densità) Un blocco ha m = 245,0 g (±0,1 g) e dimensioni 12,0 cm × 4,00 cm × 2,00 cm (incertezze ~±0,05–0,10 cm). a) Calcola V e ρ in g/cm³. b) Esprimi ρ in kg/m³. c) Qual è l’ordine di grandezza di ρ?",
+        "hint": "V = 96,0 cm³; ρ ≈ 2,55 g/cm³ → 2550 kg/m³; ordine 10³ kg/m³."
+      },
+      {
+        "prompt": "(Lez.6 – Notazione scientifica) Scrivi in notazione scientifica: a) diametro atomico 0,000 000 000 1 m b) 149 000 000 000 m. Poi indica l’ordine di grandezza di ciascuno.",
+        "hint": "a) 1,0×10⁻¹⁰ m → 10⁻¹⁰; b) 1,49×10¹¹ m → 10¹¹."
+      },
+      {
+        "prompt": "(Lez.7 – Errori: misura ripetuta) Quattro misure di massa: 3,99; 4,01; 4,04; 3,96 kg. a) Valore medio. b) Errore assoluto come semidifferenza fra max e min. c) Errore relativo e %. Scrivi il risultato correttamente.",
+        "hint": "Media 4,00 kg; e_a = (4,04−3,96)/2 = 0,04 kg; e_r = 0,04/4,00 = 0,01 → 1%; m = (4,00 ± 0,04) kg."
+      },
+      {
+        "prompt": "(Lez.8 – Propagazione) Rettangolo con b = (100 ± 2) cm e h = (50 ± 1) cm. a) Semiperimetro s e Δs. b) Area A e errore percentuale su A.",
+        "hint": "s = 150 cm; Δs = 3 cm. A = 5000 cm²; e%_A = e%_b + e%_h = 2% + 2% = 4% → ΔA ≈ 200 cm²."
+      },
+      {
+        "prompt": "(Cifre significative) Esegui e riporta con cifre significative corrette: a) (5,73 m)×4 b) 10,52 m : 2,21 s c) 2,2 s + 7,37 s.",
+        "hint": "a) 22,9 m (3 cifre). b) 4,76 m/s (3 cifre). c) 9,6 s (portare 7,37 → 7,4 per l’addizione)."
+      },
+      {
+        "prompt": "(Velocità con incertezze) Percorso s = (1000 ± 5) m in t = (100 ± 2) s. a) v media. b) Propaga l’errore percentuale su v. c) Scrivi v ± Δv.",
+        "hint": "v = 10,0 m/s; e%_v ≈ e%_s + e%_t = 0,5% + 2% = 2,5% → Δv ≈ 0,25 m/s ⇒ 10,0 ± 0,25 m/s."
+      }
+    ],
+    "weights": { "A": 1, "B": 2, "C": 3 }
+  }
+}
