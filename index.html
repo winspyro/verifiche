@@ -115,7 +115,7 @@
       <div class="row" style="justify-content:space-between;align-items:flex-end">
         <div>
           <div class="section-title">Punteggio</div>
-          <div class="muted small">A: 6×1 pt • B: 6×2 pt • C: 4×3 pt → Totale /30</div>
+          <div class="muted small" id="weightsInfo">Pesi sezione (A/B/C): 1 / 2 / 3 • Totale dinamico</div>
         </div>
         <div class="score">Totale: <span id="totale">0</span> / 30</div>
       </div>
@@ -137,8 +137,8 @@
   <section class="card" id="parteB"></section>
   <section class="card" id="parteC"></section>
 
-  <section class="card" id="rubricCard">
-    <h3 class="section-title">Griglia di correzione – Parte C (4 problemi, 3 punti ciascuno)</h3>
+  <<section class="card" id="rubricCard">
+  <h3 class="section-title">Griglia di correzione – Parte C</h3>
     <div class="muted small">Per ogni problema assegna fino a 3 punti: 1 pt procedura corretta · 1 pt calcoli e risultato · 1 pt chiarezza/uso unità. La somma si aggiorna automaticamente.</div>
     <div id="rubricC" class="grid cols-2"></div>
   </section>
@@ -955,5 +955,229 @@ function loadBanksJsonFallback(){
 // Avvio: prova il catalogo; se non presente, carica banks.json; altrimenti resta il fallback interno
 loadFromCatalog().then(ok=>{ if(!ok) loadBanksJsonFallback(); });
 </script>
+<script>
+// ==== v2 flexible schema overrides (retro-compat) ====
+(function(){
+  // Validator v2 (A/B/C presenti ma senza vincoli di quantità; tipi: mc/vf/num/open)
+  window.validateBanks = function(obj){
+    if(!obj || typeof obj !== 'object') return false;
+    const ids = Object.keys(obj); if(ids.length===0) return false;
+    for(const id of ids){
+      const b = obj[id]; if(!b) return false;
+      if(!Array.isArray(b.A) || !Array.isArray(b.B) || !Array.isArray(b.C)) return false;
+      const okA = b.A.every(q=>{
+        if(q?.type === 'vf') return typeof q.q==='string' && typeof q.correct==='boolean';
+        const choices = q?.choices || [];
+        return typeof q?.q==='string' && Array.isArray(choices) && choices.length>=2 && Number.isInteger(q.correct) && q.correct>=0 && q.correct<choices.length;
+      });
+      if(!okA) return false;
+      const okB = b.B.every(x=>{
+        if((x?.type||'num')==='num') return typeof x?.prompt==='string' && (Array.isArray(x.accept)||typeof x.accept!=='undefined');
+        return typeof x?.prompt==='string';
+      });
+      if(!okB) return false;
+      const okC = b.C.every(x=> typeof x?.prompt==='string');
+      if(!okC) return false;
+    }
+    return true;
+  };
+
+  // Matching numerico con tolleranza per-item
+  window.isCorrectB = function(userInput, accept, tolOverride){
+    const variants = Array.isArray(accept)? accept : [accept];
+    const ustr = (''+userInput).trim();
+    for(const v of variants){
+      if(typeof v === 'string' && normalize(ustr).replace(/\s+/g,'') === normalize(v).replace(/\s+/g,'')) return true;
+    }
+    const unum = parseUserNumber(ustr);
+    if(!Number.isFinite(unum)) return false;
+    for(const v of variants){
+      const target = (typeof v==='number') ? v : parseUserNumber(v);
+      if(!Number.isFinite(target)) continue;
+      const tol = (typeof tolOverride==='number' && tolOverride>=0) ? tolOverride : Math.max(1e-6, Math.abs(target)*1e-3);
+      if(Math.abs(unum - target) <= tol) return true;
+    }
+    return false;
+  };
+
+  // Render A con supporto VF; titoli dinamici
+  window.renderA = function(){
+    const bank = getBank();
+    const items = bank.A.map((item, idx)=>{
+      const id = `A${idx}`;
+      let opts = [];
+      if(item.type==='vf') opts = ['Vero','Falso']; else opts = item.choices || [];
+      const optionsHTML = opts.map((c,i)=> `<label><input type="radio" name="${id}" value="${i}"> ${c}</label>`).join('');
+      return `<div class="q"><h4><span class="badge">A${idx+1}</span> ${item.q}</h4><div class="choices">${optionsHTML}</div></div>`
+    }).join('');
+    const title = (bank.settings?.titleA) || 'Parte A – Conoscenze di base';
+    $A.innerHTML = `<h3 class="section-title">${title}</h3>${items}`;
+  };
+
+  window.renderB = function(){
+    const bank = getBank();
+    const items = bank.B.map((item, idx)=>{
+      const id = `B${idx}`;
+      return `<div class="q"><h4><span class="badge">B${idx+1}</span> ${item.prompt}</h4><input class="math-input" type="text" id="${id}" placeholder="Risposta"/></div>`
+    }).join('');
+    const title = (bank.settings?.titleB) || 'Parte B – Esercizi guidati';
+    $B.innerHTML = `<h3 class="section-title">${title}</h3>${items}`;
+  };
+
+  window.renderC = function(){
+    const bank = getBank();
+    const items = bank.C.map((item, idx)=>{
+      const id = `C${idx}`;
+      return `<div class="q"><h4><span class="badge">C${idx+1}</span> ${item.prompt}</h4><textarea class="math-input" id="${id}" placeholder="Scrivi qui i passaggi e il risultato..."></textarea>
+      <details class="small muted"><summary>Suggerimento</summary>${item.hint||''}</details></div>`
+    }).join('');
+    const title = (bank.settings?.titleC) || 'Parte C – Problemi di ragionamento';
+    $C.innerHTML = `<h3 class="section-title">${title}</h3>${items}`;
+  };
+
+  window.renderRubric = function(){
+    const bank = getBank();
+    const items = bank.C.map((item, idx)=>{
+      const maxw = (item.w ?? (bank.weights?.C ?? 3));
+      return `<div class="rubric">
+        <div><b>Valutazione C${idx+1}</b> – max ${maxw} pt</div>
+        <label><input type="checkbox" class="rubcheck" data-p="1" data-c="${idx}"> Procedura corretta (1)</label>
+        <label><input type="checkbox" class="rubcheck" data-p="1" data-c="${idx}"> Calcoli & risultato (1)</label>
+        <label><input type="checkbox" class="rubcheck" data-p="1" data-c="${idx}"> Chiarezza & unità (1)</label>
+        <div class="small muted">Punti assegnati: <span id="rubC${idx}">0</span> / ${maxw}</div>
+      </div>`
+    }).join('');
+    $rubricC.innerHTML = items;
+    const totalMax = bank.C.reduce((s,it)=> s + (it.w ?? (bank.weights?.C ?? 3)), 0);
+    const h = document.querySelector('#rubricCard .section-title');
+    if(h){ h.textContent = `Griglia di correzione – Parte C (max ${totalMax} pt)`; }
+  };
+
+  window.renderAnswerKey = function(){
+    const bank = getBank();
+    let html = '<b>Soluzioni Parte A</b><ol>';
+    bank.A.forEach((a)=>{
+      if(a.type==='vf'){
+        const sol = a.correct===true ? 'Vero' : 'Falso';
+        html += `<li>${a.q} <span class="ok">→ ${sol}</span></li>`;
+      } else {
+        html += `<li>${a.q} <span class="ok">→ ${(a.choices||[])[a.correct]}</span></li>`;
+      }
+    });
+    html += '</ol><div class="hr"></div>';
+    html += '<b>Soluzioni Parte B</b><ol>';
+    bank.B.forEach((b)=>{ const show = Array.isArray(b.accept)? b.accept[0] : b.accept; html += `<li>${b.prompt} <span class="ok">→ ${fmtAnswer(show)}</span>${b.tolerance?` <span class="muted small">(tol: ${b.tolerance})</span>`:''}</li>`; });
+    html += '</ol><div class="hr"></div>';
+    html += '<b>Criteri Parte C</b><div class="small">Ogni problema ha 3 criteri (1 pt ciascuno); il totale viene scalato al peso del problema.</div>'
+    $answerKey.innerHTML = html;
+  };
+
+  window.correctAll = function(){
+    const bank = getBank();
+    // Parte A
+    let scoreA = 0;
+    bank.A.forEach((item, idx)=>{
+      const name = `A${idx}`;
+      const choice = document.querySelector(`input[name=${name}]:checked`);
+      if(!choice) return;
+      const baseW = bank.weights?.A ?? 1;
+      const w = item.w ?? baseW;
+      if(item.type==='vf'){
+        const val = Number(choice.value); // 0=Vero,1=Falso
+        const ok = (item.correct===true && val===0) || (item.correct===false && val===1);
+        if(ok) scoreA += w;
+      } else {
+        if(Number(choice.value) === item.correct) scoreA += w;
+      }
+    });
+    // Parte B
+    let scoreB = 0;
+    bank.B.forEach((item, idx)=>{
+      const id = `B${idx}`;
+      const val = document.getElementById(id).value;
+      const baseW = bank.weights?.B ?? 2;
+      const w = item.w ?? baseW;
+      if(isCorrectB(val, item.accept, item.tolerance)) scoreB += w;
+    });
+    // Parte C via rubric (3 criteri → scala al peso item)
+    let scoreC = 0;
+    for(let i=0;i<bank.C.length;i++){
+      const checks = Array.from(document.querySelectorAll(`.rubcheck[data-c='${i}']`));
+      const pts = checks.reduce((s,ch)=> s + (ch.checked? Number(ch.dataset.p):0), 0); // 0..3
+      const maxW = bank.C[i].w ?? (bank.weights?.C ?? 3);
+      const scaled = (pts/3) * maxW;
+      const el = document.getElementById(`rubC${i}`);
+      if(el) el.textContent = scaled.toFixed(2).replace('.',',');
+      scoreC += scaled;
+    }
+    const total = Math.round((scoreA + scoreB + scoreC) * 100) / 100;
+    $totale.textContent = total;
+    return {scoreA, scoreB, scoreC, total};
+  };
+
+  // Aggiunge un handler “Mostra soluzioni” che evidenzia anche VF
+  const showBtn = document.getElementById('mostraSoluzioni');
+  if(showBtn){
+    showBtn.addEventListener('click', ()=>{
+      const bank = getBank();
+      bank.A.forEach((item, idx)=>{
+        const radios = document.querySelectorAll(`input[name=A${idx}]`);
+        const correctIndex = (item.type==='vf') ? (item.correct===true ? 0 : 1) : item.correct;
+        radios.forEach((r,i)=>{
+          const lab = r.closest('label');
+          lab.style.borderRadius = '10px';
+          lab.style.padding = '4px 6px';
+          if(i === correctIndex){ lab.style.outline = '2px solid var(--accent)'; }
+          else lab.style.opacity = .75;
+        });
+      });
+      // riempie anche B come in v1 (se vuoto)
+      bank.B.forEach((item, idx)=>{
+        const id = `B${idx}`; const el = document.getElementById(id);
+        if(!normalize(el.value)){
+          const ex = Array.isArray(item.accept)? item.accept[0] : item.accept;
+          el.value = typeof ex === 'number'? (''+ex).replace('.',',') : ex;
+        }
+      });
+      correctAll();
+    });
+  }
+
+  // Diagnostica v2
+  window.runDiagnostics = function(){
+    const out = [];
+    function t(name, cond){ out.push(`<div>${cond?'<span class="test-pass">OK</span>':'<span class="test-fail">FAIL</span>'} – ${name}</div>`); }
+    const unitIds = Object.keys(banks);
+    t('Esistono unità', unitIds.length>=1);
+    unitIds.forEach(id=>{
+      const b = banks[id];
+      const hasABC = Array.isArray(b.A) && Array.isArray(b.B) && Array.isArray(b.C);
+      const Avalid = hasABC && b.A.every(q=> (q?.type==='vf' && typeof q.q==='string' && typeof q.correct==='boolean') || (typeof q.q==='string' && Array.isArray(q.choices) && q.choices.length>=2 && Number.isInteger(q.correct) && q.correct<q.choices.length));
+      const Bvalid = hasABC && b.B.every(x=> (x?.type||'num')==='num' ? (typeof x.prompt==='string' && (Array.isArray(x.accept)||typeof x.accept!=='undefined')) : (typeof x.prompt==='string'));
+      const Cvalid = hasABC && b.C.every(x=> typeof x.prompt==='string');
+      t(`${id}: Parte A presente`, Array.isArray(b.A) && b.A.length>=1);
+      t(`${id}: Parte B presente`, Array.isArray(b.B) && b.B.length>=1);
+      t(`${id}: Parte C presente`, Array.isArray(b.C) && b.C.length>=1);
+      t(`${id}: Parte A valida (mc/vf)`, !!Avalid);
+      t(`${id}: Parte B valida (num/open)`, !!Bvalid);
+      t(`${id}: Parte C valida`, !!Cvalid);
+    });
+    t('parseUserNumber 3^2 = 9', parseUserNumber('3^2')===9);
+    t('parseUserNumber √(16) = 4', parseUserNumber('√(16)')===4);
+    t('parseUserNumber 3.6×10^-4', Math.abs(parseUserNumber('3.6×10^-4')-3.6e-4)<1e-12);
+    t('parseUserNumber sin(30°)=0.5', Math.abs(parseUserNumber('sin(30°)')-0.5)<1e-12);
+    t('isCorrectB match numero ~0.1%', isCorrectB('1.2001', 1.2));
+    t('isCorrectB match stringa simbolica', isCorrectB('10/√2', ['10/√2', 7.071]));
+    t('parseUserNumber 1e-3 = 0.001', Math.abs(parseUserNumber('1e-3')-0.001) < 1e-12);
+    t('parseUserNumber 0,5 = 0.5', Math.abs(parseUserNumber('0,5')-0.5) < 1e-12);
+    t('parseUserNumber right-assoc 2^3^2 = 512', parseUserNumber('2^3^2') === 512);
+    t('parseUserNumber precedenze 2+3*4 = 14', parseUserNumber('2+3*4') === 14);
+    document.getElementById('testResults').innerHTML = out.join('');
+  };
+
+  try{ renderAll(); loadDraft(); runDiagnostics(); }catch{}
+})();
+</script>
+
 </body>
 </html>
