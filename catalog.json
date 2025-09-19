@@ -2,10 +2,12 @@
   "fisica": {
     "title": "Fisica – 1ª",
     "units": [
-      {"id":"U0","title":"Test Unità 0 – Strumenti matematici","path":"data/fisica/U0.json"},
-    
+      { "id": "U0", "title": "Test Unità 0 – Strumenti matematici", "path": "data/fisica/U0.json" }
     ]
   }
+}
+
+
 
 
 
