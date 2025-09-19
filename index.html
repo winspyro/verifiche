@@ -137,13 +137,13 @@
   <section class="card" id="parteB"></section>
   <section class="card" id="parteC"></section>
 
-  <section class="card">
+  <section class="card" id="rubricCard">
     <h3 class="section-title">Griglia di correzione – Parte C (4 problemi, 3 punti ciascuno)</h3>
     <div class="muted small">Per ogni problema assegna fino a 3 punti: 1 pt procedura corretta · 1 pt calcoli e risultato · 1 pt chiarezza/uso unità. La somma si aggiorna automaticamente.</div>
     <div id="rubricC" class="grid cols-2"></div>
   </section>
 
-  <section class="card">
+  <section class="card" id="guidaCard">
     <details>
       <summary><b>Guida docente / Studente</b> – criteri, risposte, come aggiungere altre unità</summary>
       <div class="answer-key" id="answerKey"></div>
@@ -154,7 +154,7 @@
     </details>
   </section>
 
-  <section class="card">
+  <section class="card" id="diagCard">
     <details>
       <summary><b>Diagnostica / Test automatici</b> – verifica rapida del questionario</summary>
       <div id="testResults" class="small"></div>
@@ -506,12 +506,64 @@ function renderIndexSection(cat){
 }
 
 function loadCatalogAndRenderIndex(){
+  const $idx = document.getElementById('indice');
+  const $cnt = document.getElementById('indiceContent');
   fetch('catalog.json')
-    .then(r=>{ if(!r.ok) throw 0; return r.json(); })
-    .then(cat=> renderIndexSection(cat))
-    .catch(()=>{ const $idx = document.getElementById('indice'); if($idx) $idx.style.display='none'; });
+    .then(r=>{ if(!r.ok) throw new Error('catalog.json assente'); return r.json(); })
+    .then(cat=>{ renderIndexSection(cat); })
+    .catch(()=>{
+      // Mostra indice in "modalità offline" con pulsante per caricare un catalogo manualmente
+      $idx.style.display='';
+      $cnt.innerHTML = `
+        <div class="muted">Non trovo <code>catalog.json</code>. Per vedere l'indice:
+        avvia un server locale <code>python -m http.server</code> oppure carica un catalogo manualmente.</div>
+        <div style="margin-top:8px"><button class="btn" id="btnLoadCatalog">Carica catalogo…</button></div>
+      `;
+      const btn = document.getElementById('btnLoadCatalog');
+      if(btn){
+        btn.addEventListener('click',()=>{
+          const inp = document.createElement('input');
+          inp.type = 'file'; inp.accept = 'application/json';
+          inp.onchange = ()=>{
+            const f = inp.files?.[0]; if(!f) return;
+            const fr = new FileReader();
+            fr.onload = ()=>{
+              try{ const json = JSON.parse(fr.result); renderIndexSection(json); }
+              catch{ alert('File non valido.'); }
+            };
+            fr.readAsText(f);
+          };
+          inp.click();
+        });
+      }
+    });
 }
 loadCatalogAndRenderIndex();
+
+// Modalità HOME: nasconde le sezioni quiz finché non selezioni un'unità
+function setHomeMode(isHome){
+  ['parteA','parteB','parteC','rubricCard','guidaCard','diagCard'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.style.display = isHome ? 'none' : ''; }
+  });
+  const txt = document.getElementById('indiceContent');
+  if(isHome && txt){
+    const noteId = 'homeNote';
+    if(!document.getElementById(noteId)){
+      const div = document.createElement('div');
+      div.id = noteId;
+      div.className = 'muted';
+      div.style.marginBottom = '8px';
+      div.textContent = 'Seleziona un’unità dall’indice qui sotto per iniziare.';
+      txt.prepend(div);
+    }
+  }
+}
+// Se non ci sono parametri ?s=&u=, mostra solo l'indice (home)
+(function(){
+  const u = new URL(location.href); const hasParams = !!(u.searchParams.get('s') && u.searchParams.get('u'));
+  setHomeMode(!hasParams);
+})();
 
 // =======================
 //  TIMER
@@ -550,6 +602,7 @@ unitSelect.addEventListener('change', ()=>{
   currentUnitId = unitSelect.value;
   renderAll();
   loadDraft();
+  setHomeMode(false);
 });
 
 // =======================
@@ -871,6 +924,7 @@ async function loadFromCatalog(){
     renderAll();
     loadDraft();
     console.log(`Caricato da catalogo: ${s}/${u} → ${rec.path}`);
+    setHomeMode(false);
     return true;
   }catch(e){
     console.warn('Catalog load error:', e);
@@ -889,6 +943,7 @@ function loadBanksJsonFallback(){
         populateUnits();
         renderAll();
         loadDraft();
+        setHomeMode(false);
         console.log('banks.json caricato');
       } else {
         console.warn('banks.json non valido. Uso le domande di fallback incorporate.');
